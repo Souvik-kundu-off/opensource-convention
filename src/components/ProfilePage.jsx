@@ -1447,10 +1447,7 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
                   </div>
                   {/* Canvas Preview Column */}
                   <div className="md:col-span-5 flex flex-col items-center gap-3">
-                    <span className="text-[9px] font-mono font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest self-start flex items-center justify-between w-full">
-                      <span>Live Output Canvas</span>
-                      <span className="text-[8px] text-gray-500">REFRESH_RATE: 60Hz</span>
-                    </span>
+                    <span className="text-[9px] font-mono font-bold text-gray-450 uppercase tracking-widest self-start">Live Output Canvas</span>
                     
                     {/* Glowing Tech Console Housing */}
                     <div className="relative p-2.5 rounded-[24px] border border-gray-200 dark:border-white/5 bg-gray-50/50 dark:bg-black/30 backdrop-blur-md w-full max-w-[280px] group shadow-inner">
@@ -1488,7 +1485,13 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
                       </div>
                     </div>
                     {/* Live Telemetry Display */}
-                    <div className="w-full max-w-[280px] bg-black/40 border border-white/5 rounded-xl p-2.5 font-mono text-[8px] text-gray-400 space-y-1 select-none">
+                    <div 
+                      className="w-full max-w-[280px] rounded-xl p-2.5 font-mono text-[8px] font-bold space-y-1 select-none text-[#111827]"
+                      style={{
+                        background: 'linear-gradient(to right, #22C55E 0%, #7ED956 100%)',
+                        boxShadow: '0 4px 12px rgba(34, 197, 94, 0.15)'
+                      }}
+                    >
                       <div className="flex justify-between">
                         <span>DIMENSION: 500 x 500 PX</span>
                         <span>SCALE: {(zoom * 100).toFixed(0)}%</span>
