@@ -1271,22 +1271,7 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
               {/* Top decorative micro-accent line */}
               <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-brand-green/40 to-transparent print:hidden" style={{ backgroundImage: `linear-gradient(90deg, transparent, ${accentColor}40, transparent)` }} />
               
-              {/* Tech Cockpit Terminal Window Header Bar */}
-              <div className="flex items-center justify-between border-b border-gray-150/40 dark:border-white/5 pb-3 mb-1 text-gray-400 font-mono text-[9px] select-none print:hidden">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-[#FF5F56]" />
-                  <span className="w-2 h-2 rounded-full bg-[#FFBD2E]" />
-                  <span className="w-2 h-2 rounded-full bg-[#27C93F]" />
-                  <span className="ml-2 font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest text-[8px] flex items-center gap-1">
-                    [SYS_CORE://{activeTab.toUpperCase()}_WORKSPACE]
-                  </span>
-                </div>
-                <div className="flex items-center gap-4 text-gray-400/60 font-semibold">
-                  <span className="hidden sm:inline">LATENCY: 14MS</span>
-                  <span className="hidden sm:inline">DECK_LNK: SECURE</span>
-                  <span className="text-brand-green font-bold" style={{ color: accentColor }}>ONLINE</span>
-                </div>
-              </div>
+
               
               {/* Profile Header */}
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-gray-150/40 dark:border-white/5 pb-5">
