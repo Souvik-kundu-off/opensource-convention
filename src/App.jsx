@@ -73,6 +73,7 @@ export default function App() {
         currentUser={currentUser} 
         onOpenAuth={handleOpenAuth} 
         onOpenProfile={handleOpenProfile} 
+        showLogin={true}
       />
 
       <main className="relative z-10 print:z-[200]">
