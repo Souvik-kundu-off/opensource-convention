@@ -96,7 +96,7 @@ export default function Footer() {
             const isContact = title === 'Contact';
             return (
               <div key={title} className={`space-y-4 ${isContact ? 'col-span-2 lg:col-span-1' : 'col-span-1'}`}>
-                <h4 className="font-heading font-bold text-sm text-brand-green-dark uppercase tracking-wider">
+                <h4 className="font-heading font-bold text-sm text-brand-green uppercase tracking-wider">
                   {title}
                 </h4>
                 <ul className="space-y-3">
