@@ -128,15 +128,7 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
   const [telemetryTime, setTelemetryTime] = useState('00:00:00');
   const [telemetryCpu, setTelemetryCpu] = useState(42);
 
-  // Lazy state initialization for ambient particles to comply with react-hooks/purity
-  const [particles] = useState(() => Array.from({ length: 15 }).map((_, i) => ({
-    id: i,
-    size: Math.random() * 4 + 2,
-    delay: Math.random() * 8,
-    duration: Math.random() * 12 + 10,
-    left: Math.random() * 100,
-    top: Math.random() * 100
-  })));
+
 
   // Ticket 3D Parallax & Holographic states
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -739,24 +731,7 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
     );
   });
 
-  // Cyberpunk Ambient Particles mapped from state to comply with react-hooks/purity
-  const ambientParticles = particles.map((p) => (
-    <div 
-      key={p.id}
-      className="absolute rounded-full pointer-events-none"
-      style={{
-        width: `${p.size}px`,
-        height: `${p.size}px`,
-        backgroundColor: accentColor,
-        left: `${p.left}%`,
-        top: `${p.top}%`,
-        animation: `float-particle ${p.duration}s linear infinite`,
-        animationDelay: `${p.delay}s`,
-        filter: 'blur(0.5px)',
-        boxShadow: `0 0 8px ${accentColor}`
-      }}
-    />
-  ));
+
 
   if (!user) return null;
 
@@ -790,12 +765,6 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
         @keyframes wave-bar {
           0% { height: 15%; }
           100% { height: 85%; }
-        }
-        @keyframes float-particle {
-          0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
-          10% { opacity: 0.35; }
-          90% { opacity: 0.35; }
-          100% { transform: translateY(-120px) translateX(25px) scale(0.85); opacity: 0; }
         }
       `}</style>
 
@@ -988,7 +957,6 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
       <div className="absolute w-[300px] h-[300px] rounded-full bg-brand-green/10 dark:bg-brand-green/5 blur-[80px] pointer-events-none top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 print:hidden" />
       <div className="absolute w-[250px] h-[250px] rounded-full bg-brand-green/10 dark:bg-brand-green/5 blur-[80px] pointer-events-none bottom-1/4 right-1/4 print:hidden" />
       
-      {ambientParticles}
 
       {/* Cyberpunk HUD Technical Metadata Stamps */}
       <div className="absolute top-10 right-10 text-right font-mono text-[9px] text-gray-450/30 dark:text-white/10 select-none uppercase tracking-widest hidden lg:block leading-relaxed z-0">
