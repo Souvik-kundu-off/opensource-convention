@@ -124,9 +124,7 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
   // Custom Swag States
   const [badgeCopied, setBadgeCopied] = useState(false);
 
-  // Live system telemetry state
-  const [telemetryTime, setTelemetryTime] = useState('00:00:00');
-  const [telemetryCpu, setTelemetryCpu] = useState(42);
+
 
 
 
@@ -176,15 +174,7 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
-  // Live system telemetry updater
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const timeStr = new Date().toUTCString().split(' ')[4];
-      setTelemetryTime(timeStr || '12:00:00');
-      setTelemetryCpu(Math.floor(35 + Math.random() * 20));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+
 
   const canvasRef = useRef(null);
 
@@ -958,19 +948,7 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
       <div className="absolute w-[250px] h-[250px] rounded-full bg-brand-green/10 dark:bg-brand-green/5 blur-[80px] pointer-events-none bottom-1/4 right-1/4 print:hidden" />
       
 
-      {/* Cyberpunk HUD Technical Metadata Stamps */}
-      <div className="absolute top-10 right-10 text-right font-mono text-[9px] text-gray-450/30 dark:text-white/10 select-none uppercase tracking-widest hidden lg:block leading-relaxed z-0">
-        <div>SYSTEM: SECURE_CORE_v2.8</div>
-        <div>STATION: CON_GATE_SCAN_04</div>
-        <div>LOC: KOLKATA_IN</div>
-        <div>TIME: {telemetryTime} UTC</div>
-        <div>CPU_LOAD: {telemetryCpu}% // STABLE</div>
-      </div>
-      <div className="absolute bottom-10 left-10 text-left font-mono text-[9px] text-gray-455/30 dark:text-white/10 select-none uppercase tracking-widest hidden lg:block leading-relaxed z-0">
-        <div>ENCRYPTION: SHIELD_AES_256</div>
-        <div>PING: 14MS // STABLE</div>
-        <div>AUTH_PROTOCOL: JWT_SECURE</div>
-      </div>
+
 
       {/* Main Grid Wrapper */}
       <div className="max-w-5xl w-full mx-auto px-6 relative z-10 print:p-0 print:w-auto">
