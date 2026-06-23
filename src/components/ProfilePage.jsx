@@ -124,6 +124,20 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
   // Custom Swag States
   const [badgeCopied, setBadgeCopied] = useState(false);
 
+  // Live system telemetry state
+  const [telemetryTime, setTelemetryTime] = useState('00:00:00');
+  const [telemetryCpu, setTelemetryCpu] = useState(42);
+
+  // Lazy state initialization for ambient particles to comply with react-hooks/purity
+  const [particles] = useState(() => Array.from({ length: 15 }).map((_, i) => ({
+    id: i,
+    size: Math.random() * 4 + 2,
+    delay: Math.random() * 8,
+    duration: Math.random() * 12 + 10,
+    left: Math.random() * 100,
+    top: Math.random() * 100
+  })));
+
   // Ticket 3D Parallax & Holographic states
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -169,6 +183,16 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
   const [syncWithProfile, setSyncWithProfile] = useState(true);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+
+  // Live system telemetry updater
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const timeStr = new Date().toUTCString().split(' ')[4];
+      setTelemetryTime(timeStr || '12:00:00');
+      setTelemetryCpu(Math.floor(35 + Math.random() * 20));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   const canvasRef = useRef(null);
 
@@ -715,6 +739,25 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
     );
   });
 
+  // Cyberpunk Ambient Particles mapped from state to comply with react-hooks/purity
+  const ambientParticles = particles.map((p) => (
+    <div 
+      key={p.id}
+      className="absolute rounded-full pointer-events-none"
+      style={{
+        width: `${p.size}px`,
+        height: `${p.size}px`,
+        backgroundColor: accentColor,
+        left: `${p.left}%`,
+        top: `${p.top}%`,
+        animation: `float-particle ${p.duration}s linear infinite`,
+        animationDelay: `${p.delay}s`,
+        filter: 'blur(0.5px)',
+        boxShadow: `0 0 8px ${accentColor}`
+      }}
+    />
+  ));
+
   if (!user) return null;
 
   return (
@@ -744,6 +787,16 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
           50% { background-position: 100% 50%; }
           100% { background-position: 0% 50%; }
         }
+        @keyframes wave-bar {
+          0% { height: 15%; }
+          100% { height: 85%; }
+        }
+        @keyframes float-particle {
+          0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+          10% { opacity: 0.35; }
+          90% { opacity: 0.35; }
+          100% { transform: translateY(-120px) translateX(25px) scale(0.85); opacity: 0; }
+        }
       `}</style>
 
       {isScanning && (
@@ -770,7 +823,73 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
 
               {/* Scanning visual laser */}
               {scanState === 'scanning' && (
-                <div className="absolute left-0 right-0 h-[3px] bg-brand-green shadow-[0_0_12px_#52D237] laser-scanner-line pointer-events-none z-10" />
+                <>
+                  <div className="absolute left-0 right-0 h-[3px] bg-brand-green shadow-[0_0_12px_#52D237] laser-scanner-line pointer-events-none z-20" style={{ backgroundColor: accentColor, boxShadow: `0 0 12px ${accentColor}` }} />
+                  
+                  {/* High-Tech SVG Radar Scan Screen */}
+                  <div className="absolute inset-0 bg-transparent flex items-center justify-center pointer-events-none z-10">
+                    {/* Static Radar Grid */}
+                    <svg className="absolute w-40 h-40" viewBox="0 0 100 100" style={{ color: accentColor }}>
+                      <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.15" />
+                      <circle cx="50" cy="50" r="32" fill="none" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.2" />
+                      <circle cx="50" cy="50" r="18" fill="none" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.35" strokeDasharray="1, 1" />
+                      <line x1="50" y1="5" x2="50" y2="95" stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.2" />
+                      <line x1="5" y1="50" x2="95" y2="50" stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.2" />
+                      {/* Technical markings */}
+                      <text x="52" y="12" className="font-mono text-[3px] fill-current opacity-40">000°</text>
+                      <text x="88" y="52" className="font-mono text-[3px] fill-current opacity-40">090°</text>
+                      <text x="52" y="92" className="font-mono text-[3px] fill-current opacity-40">180°</text>
+                      <text x="8" y="52" className="font-mono text-[3px] fill-current opacity-40">270°</text>
+                    </svg>
+                    
+                    {/* Rotating Radar Sweep Hand */}
+                    <svg className="absolute w-40 h-40 animate-spin" viewBox="0 0 100 100" style={{ animationDuration: '4s', color: accentColor }}>
+                      <path d="M 50,50 L 50,5 A 45,45 0 0,1 81.8,18.2 Z" fill="url(#radarSweep)" opacity="0.35" />
+                      <line x1="50" y1="50" x2="50" y2="5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" style={{ filter: `drop-shadow(0 0 3px ${accentColor})` }} />
+                      <defs>
+                        <linearGradient id="radarSweep" x1="100%" y1="100%" x2="0%" y2="0%">
+                          <stop offset="0%" stopColor={accentColor} stopOpacity="0.8" />
+                          <stop offset="100%" stopColor={accentColor} stopOpacity="0" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
+                  
+                  {/* SVG Animated Soundwave Frequency Visualizer */}
+                  <div className="absolute bottom-2 left-0 right-0 flex items-center justify-center h-8 z-10 pointer-events-none px-4">
+                    <svg className="w-full h-full" viewBox="0 0 160 30" style={{ color: accentColor }}>
+                      <defs>
+                        <linearGradient id="waveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stopColor={accentColor} stopOpacity="1" />
+                          <stop offset="100%" stopColor={accentColor} stopOpacity="0.15" />
+                        </linearGradient>
+                      </defs>
+                      <path
+                        d="M0,15 Q10,5 20,15 T40,15 T60,15 T80,15 T100,15 T120,15 T140,15 T160,15"
+                        fill="none"
+                        stroke="url(#waveGrad)"
+                        strokeWidth="1.5"
+                        className="animate-pulse"
+                        style={{
+                          animationDuration: '1.2s',
+                          filter: `drop-shadow(0 0 2px ${accentColor})`
+                        }}
+                      />
+                      <path
+                        d="M0,15 Q15,25 30,15 T60,15 T90,15 T120,15 T150,15 T180,15"
+                        fill="none"
+                        stroke="url(#waveGrad)"
+                        strokeWidth="1"
+                        opacity="0.4"
+                        className="animate-pulse"
+                        style={{
+                          animationDuration: '2s',
+                          animationDelay: '0.2s'
+                        }}
+                      />
+                    </svg>
+                  </div>
+                </>
               )}
 
               {/* QR display */}
@@ -868,6 +987,22 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
       <div className="absolute inset-0 grid-bg pointer-events-none z-0 print:hidden" />
       <div className="absolute w-[300px] h-[300px] rounded-full bg-brand-green/10 dark:bg-brand-green/5 blur-[80px] pointer-events-none top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 print:hidden" />
       <div className="absolute w-[250px] h-[250px] rounded-full bg-brand-green/10 dark:bg-brand-green/5 blur-[80px] pointer-events-none bottom-1/4 right-1/4 print:hidden" />
+      
+      {ambientParticles}
+
+      {/* Cyberpunk HUD Technical Metadata Stamps */}
+      <div className="absolute top-10 right-10 text-right font-mono text-[9px] text-gray-450/30 dark:text-white/10 select-none uppercase tracking-widest hidden lg:block leading-relaxed z-0">
+        <div>SYSTEM: SECURE_CORE_v2.8</div>
+        <div>STATION: CON_GATE_SCAN_04</div>
+        <div>LOC: KOLKATA_IN</div>
+        <div>TIME: {telemetryTime} UTC</div>
+        <div>CPU_LOAD: {telemetryCpu}% // STABLE</div>
+      </div>
+      <div className="absolute bottom-10 left-10 text-left font-mono text-[9px] text-gray-455/30 dark:text-white/10 select-none uppercase tracking-widest hidden lg:block leading-relaxed z-0">
+        <div>ENCRYPTION: SHIELD_AES_256</div>
+        <div>PING: 14MS // STABLE</div>
+        <div>AUTH_PROTOCOL: JWT_SECURE</div>
+      </div>
 
       {/* Main Grid Wrapper */}
       <div className="max-w-5xl w-full mx-auto px-6 relative z-10 print:p-0 print:w-auto">
@@ -880,19 +1015,19 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
           <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
           Back to Home
         </button>
-        {/* Dashboard Grid Card with dynamic shadow */}
-        <div 
-          className="bg-white/90 dark:bg-[#0f172a]/65 border border-gray-200/50 dark:border-white/10 rounded-[32px] p-6 md:p-8 backdrop-blur-xl relative overflow-hidden transition-all duration-500 print:shadow-none print:border-0 print:p-0"
-          style={{
-            boxShadow: `0 30px 60px -15px ${glowColor}`,
-          }}
-        >
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-brand-green/40 to-transparent print:hidden" style={{ backgroundImage: `linear-gradient(90deg, transparent, ${accentColor}40, transparent)` }} />
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 print:block">
-            
-            {/* COLUMN 1: DIGITAL PASS SIDEBAR (Col span 4) */}
-            <div className="lg:col-span-4 flex flex-col items-center gap-6 border-b lg:border-b-0 lg:border-r border-gray-150/40 dark:border-white/5 pb-8 lg:pb-0 lg:pr-8 print:border-0 print:col-span-12 print:block">
+        {/* Floating Modular HUD Panels Container */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start print:block">
+          
+          {/* COLUMN 1: DIGITAL PASS SIDEBAR (Col span 4) - Floating Modular HUD Panel */}
+          <div 
+            className="lg:col-span-4 flex flex-col items-center gap-6 bg-white/90 dark:bg-[#0f172a]/65 border border-gray-200/50 dark:border-white/10 rounded-[32px] p-6 md:p-8 backdrop-blur-xl relative overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl print:border-0 print:col-span-12 print:block print:shadow-none print:p-0"
+            style={{
+              boxShadow: `0 20px 50px -15px ${glowColor}`,
+              borderTop: `2px solid ${accentColor}40`
+            }}
+          >
+            {/* Top decorative micro-accent line */}
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-brand-green/40 to-transparent print:hidden" style={{ backgroundImage: `linear-gradient(90deg, transparent, ${accentColor}40, transparent)` }} />
               
               {/* Pass Card Wrapper with Outer Glow & Parallax 3D Tilt */}
               <div 
@@ -901,9 +1036,10 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
                   boxShadow: isHovered ? `0 30px 60px -15px ${glowColorStrong}` : `0 15px 35px -15px ${glowColor}`,
                   transform: isHovered ? `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale3d(1.03, 1.03, 1.03)` : 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)',
                   transition: isHovered ? 'none' : 'transform 0.5s ease, box-shadow 0.5s ease',
-                  background: isHovered 
+                  backgroundImage: isHovered 
                     ? `linear-gradient(135deg, ${accentColor}, transparent 30%, ${accentColor} 50%, transparent 70%, ${accentColor})` 
-                    : 'rgba(156, 163, 175, 0.15)',
+                    : 'none',
+                  backgroundColor: isHovered ? 'transparent' : 'rgba(156, 163, 175, 0.15)',
                   backgroundSize: '200% 200%',
                   animation: 'laser-sweep-bg 3s linear infinite'
                 }}
@@ -1178,8 +1314,33 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
 
             </div>
 
-            {/* COLUMN 2: TABBED ACTION INTERFACE (Col span 8) */}
-            <div className="lg:col-span-8 space-y-6 text-left print:hidden flex flex-col justify-start">
+            {/* COLUMN 2: TABBED ACTION INTERFACE (Col span 8) - Floating Modular HUD Panel */}
+            <div 
+              className="lg:col-span-8 flex flex-col gap-6 bg-white/90 dark:bg-[#0f172a]/65 border border-gray-200/50 dark:border-white/10 rounded-[32px] p-6 md:p-8 backdrop-blur-xl relative overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl print:border-0 print:col-span-12 print:shadow-none print:p-0"
+              style={{
+                boxShadow: `0 20px 50px -15px ${glowColor}`,
+                borderTop: `2px solid ${accentColor}40`
+              }}
+            >
+              {/* Top decorative micro-accent line */}
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-brand-green/40 to-transparent print:hidden" style={{ backgroundImage: `linear-gradient(90deg, transparent, ${accentColor}40, transparent)` }} />
+              
+              {/* Tech Cockpit Terminal Window Header Bar */}
+              <div className="flex items-center justify-between border-b border-gray-150/40 dark:border-white/5 pb-3 mb-1 text-gray-400 font-mono text-[9px] select-none print:hidden">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-[#FF5F56]" />
+                  <span className="w-2 h-2 rounded-full bg-[#FFBD2E]" />
+                  <span className="w-2 h-2 rounded-full bg-[#27C93F]" />
+                  <span className="ml-2 font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest text-[8px] flex items-center gap-1">
+                    [SYS_CORE://{activeTab.toUpperCase()}_WORKSPACE]
+                  </span>
+                </div>
+                <div className="flex items-center gap-4 text-gray-400/60 font-semibold">
+                  <span className="hidden sm:inline">LATENCY: 14MS</span>
+                  <span className="hidden sm:inline">DECK_LNK: SECURE</span>
+                  <span className="text-brand-green font-bold" style={{ color: accentColor }}>ONLINE</span>
+                </div>
+              </div>
               
               {/* Profile Header */}
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-gray-150/40 dark:border-white/5 pb-5">
@@ -1265,13 +1426,26 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
                         <button
                           key={t.id}
                           onClick={() => handleUpdateTheme(t.id)}
-                          className={`p-4 rounded-2xl border text-left transition-all ${
+                          className={`p-4 rounded-2xl border text-left transition-all relative overflow-hidden group ${
                             passTheme === t.id 
-                              ? 'border-brand-green bg-brand-green/5 dark:bg-brand-green/8 text-dark dark:text-white shadow-sm'
+                              ? 'bg-brand-green/5 dark:bg-brand-green/8 text-dark dark:text-white shadow-sm'
                               : 'border-gray-100 dark:border-white/5 bg-transparent text-gray-500 hover:bg-gray-50 dark:hover:bg-white/5'
                           }`}
+                          style={passTheme === t.id ? { borderColor: accentColor, boxShadow: `0 0 12px ${accentColor}20` } : {}}
                         >
-                          <span className="font-bold text-xs block text-dark dark:text-white">{t.name}</span>
+                          {/* Corner tech indicators for selected theme */}
+                          {passTheme === t.id && (
+                            <>
+                              <span className="absolute top-1 left-1 font-mono text-[6px]" style={{ color: accentColor }}>+</span>
+                              <span className="absolute top-1 right-1 font-mono text-[6px]" style={{ color: accentColor }}>+</span>
+                              <span className="absolute bottom-1 left-1 font-mono text-[6px]" style={{ color: accentColor }}>+</span>
+                              <span className="absolute bottom-1 right-1 font-mono text-[6px]" style={{ color: accentColor }}>+</span>
+                            </>
+                          )}
+                          <span className="font-bold text-xs block text-dark dark:text-white flex items-center justify-between">
+                            {t.name}
+                            {passTheme === t.id && <span className="text-[8px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded border" style={{ borderColor: `${accentColor}40`, color: accentColor, backgroundColor: `${accentColor}10` }}>active</span>}
+                          </span>
                           <span className="text-[10px] text-gray-400 mt-1 block leading-normal">{t.desc}</span>
                         </button>
                       ))}
@@ -1288,11 +1462,12 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
                           onClick={() => handleUpdateAccent(col.hex)}
                           className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all ${
                             accentColor.toLowerCase() === col.hex.toLowerCase()
-                              ? 'border-brand-green bg-brand-green/5 text-dark dark:text-white'
+                              ? 'bg-brand-green/5 text-dark dark:text-white'
                               : 'border-gray-100 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-500'
                           }`}
+                          style={accentColor.toLowerCase() === col.hex.toLowerCase() ? { borderColor: accentColor, boxShadow: `0 0 8px ${accentColor}25` } : {}}
                         >
-                          <span className="w-3.5 h-3.5 rounded-full border border-black/10 flex-shrink-0" style={{ backgroundColor: col.hex }} />
+                          <span className="w-3.5 h-3.5 rounded-full border border-black/10 flex-shrink-0" style={{ backgroundColor: col.hex, boxShadow: `0 0 6px ${col.hex}70` }} />
                           {col.name}
                         </button>
                       ))}
@@ -1339,33 +1514,58 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
                       Announce that you are attending OpenSourceCon! Reposition your image and download your custom branded avatar.
                     </p>
                   </div>
-
                   {/* Canvas Preview Column */}
-                  <div className="md:col-span-5 flex flex-col items-center gap-2">
-                    <span className="text-[9px] font-mono font-bold text-gray-450 uppercase tracking-widest self-start">Live Output Canvas</span>
+                  <div className="md:col-span-5 flex flex-col items-center gap-3">
+                    <span className="text-[9px] font-mono font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest self-start flex items-center justify-between w-full">
+                      <span>Live Output Canvas</span>
+                      <span className="text-[8px] text-gray-500">REFRESH_RATE: 60Hz</span>
+                    </span>
                     
-                    <div 
-                      className="relative w-full aspect-square max-w-[280px] rounded-2xl overflow-hidden border border-gray-250 dark:border-white/10 bg-[#070C16] shadow-lg cursor-move select-none group"
-                      onMouseDown={handleMouseDown}
-                      onMouseMove={handleMouseMove}
-                      onMouseUp={handleMouseUp}
-                      onMouseLeave={handleMouseUp}
-                      onTouchStart={handleMouseDown}
-                      onTouchMove={handleMouseMove}
-                      onTouchEnd={handleMouseUp}
-                    >
-                      <canvas 
-                        ref={canvasRef} 
-                        className="w-full h-full block object-contain pointer-events-none" 
-                      />
-                      
-                      {frameImage && (
-                        <div className="absolute inset-x-0 bottom-4 text-center pointer-events-none">
-                          <span className="bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-[8px] font-mono text-white inline-block">
-                            ↔ DRAG PHOTO TO ALIGN
-                          </span>
-                        </div>
-                      )}
+                    {/* Glowing Tech Console Housing */}
+                    <div className="relative p-2.5 rounded-[24px] border border-gray-200 dark:border-white/5 bg-gray-50/50 dark:bg-black/30 backdrop-blur-md w-full max-w-[280px] group shadow-inner">
+                      {/* Grid Backing overlay */}
+                      <div className="absolute inset-2 bg-grid-bg opacity-15 pointer-events-none rounded-[18px]" />
+                      {/* Corner bracket crosshairs */}
+                      <div className="absolute top-4 left-4 w-3.5 h-3.5 border-t border-l border-gray-300 dark:border-white/20 rounded-tl" />
+                      <div className="absolute top-4 right-4 w-3.5 h-3.5 border-t border-r border-gray-300 dark:border-white/20 rounded-tr" />
+                      <div className="absolute bottom-4 left-4 w-3.5 h-3.5 border-b border-l border-gray-300 dark:border-white/20 rounded-bl" />
+                      <div className="absolute bottom-4 right-4 w-3.5 h-3.5 border-b border-r border-gray-300 dark:border-white/20 rounded-br" />
+
+                      <div 
+                        className="relative w-full aspect-square rounded-[18px] overflow-hidden border border-gray-250 dark:border-white/10 bg-[#070C16] shadow-lg cursor-move select-none"
+                        onMouseDown={handleMouseDown}
+                        onMouseMove={handleMouseMove}
+                        onMouseUp={handleMouseUp}
+                        onMouseLeave={handleMouseUp}
+                        onTouchStart={handleMouseDown}
+                        onTouchMove={handleMouseMove}
+                        onTouchEnd={handleMouseUp}
+                        style={{ outline: `1px solid ${accentColor}25` }}
+                      >
+                        <canvas 
+                          ref={canvasRef} 
+                          className="w-full h-full block object-contain pointer-events-none" 
+                        />
+                        
+                        {frameImage && (
+                          <div className="absolute inset-x-0 bottom-3 text-center pointer-events-none">
+                            <span className="bg-black/75 backdrop-blur-md px-3 py-1 rounded-full text-[7px] font-mono text-white inline-block border border-white/15 tracking-wider">
+                              ↔ DRAG PHOTO TO ALIGN
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    {/* Live Telemetry Display */}
+                    <div className="w-full max-w-[280px] bg-black/40 border border-white/5 rounded-xl p-2.5 font-mono text-[8px] text-gray-400 space-y-1 select-none">
+                      <div className="flex justify-between">
+                        <span>DIMENSION: 500 x 500 PX</span>
+                        <span>SCALE: {(zoom * 100).toFixed(0)}%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>OFFSET: X={panX}PX, Y={panY}PX</span>
+                        <span>FORMAT: PNG / ARGB</span>
+                      </div>
                     </div>
                   </div>
 
@@ -1576,13 +1776,18 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
                               return (
                                 <div 
                                   key={session.id}
-                                  className={`p-4 bg-white dark:bg-white/5 border rounded-2xl flex items-center justify-between gap-4 transition-all ${
+                                  className={`p-4 bg-white dark:bg-white/5 border rounded-2xl flex items-center justify-between gap-4 transition-all relative overflow-hidden group ${
                                     isBookmarked 
-                                      ? 'border-brand-green/30 shadow-sm'
+                                      ? 'shadow-sm'
                                       : 'border-gray-100 dark:border-white/5 hover:border-gray-200 dark:hover:border-white/10'
                                   }`}
-                                  style={isBookmarked ? { boxShadow: `inset 3px 0 0 ${accentColor}` } : {}}
+                                  style={isBookmarked ? { 
+                                    borderColor: `${accentColor}50`, 
+                                    boxShadow: `inset 3px 0 0 ${accentColor}, 0 0 10px ${accentColor}10` 
+                                  } : {}}
                                 >
+                                  {/* Tech corner tick on hover */}
+                                  <span className="absolute top-1 right-1 font-mono text-[7px] text-gray-300 dark:text-white/10 group-hover:text-brand-green select-none transition-colors" style={{ color: isBookmarked ? accentColor : '' }}>+</span>
                                   <div className="flex items-start gap-3.5 min-w-0">
                                     <div className="text-left flex-shrink-0">
                                       <span className="text-[11px] font-mono font-bold text-dark dark:text-white block">
@@ -1697,88 +1902,165 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
                   {/* Main Details Form */}
                   <form onSubmit={handleSaveProfile} className="space-y-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Attendee Name</label>
-                        <input
-                          type="text"
-                          required
-                          value={editName}
-                          onChange={(e) => setEditName(e.target.value)}
-                          placeholder="Your Name"
-                          className="w-full px-3.5 py-3.5 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-150 dark:border-white/5 text-xs text-dark dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-green focus:bg-white dark:focus:bg-dark"
-                        />
+                      <div className="space-y-1.5 relative group">
+                        <label className="text-[9px] font-mono font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider block">// ATTENDEE_NAME</label>
+                        <div className="relative">
+                          <input
+                            type="text"
+                            required
+                            value={editName}
+                            onChange={(e) => setEditName(e.target.value)}
+                            placeholder="Your Name"
+                            className="w-full px-4 py-3.5 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-150 dark:border-white/5 text-xs text-dark dark:text-white focus:outline-none focus:bg-white dark:focus:bg-black/40 transition-all font-mono"
+                            style={{ 
+                              outline: 'none',
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = accentColor;
+                              e.target.style.boxShadow = `0 0 8px ${accentColor}30`;
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = '';
+                              e.target.style.boxShadow = '';
+                            }}
+                          />
+                          {/* Corner tech indicators */}
+                          <span className="absolute top-1.5 right-2 font-mono text-[7px] text-gray-300 dark:text-white/10 group-hover:text-brand-green transition-colors">+</span>
+                        </div>
                       </div>
 
-                      <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Organization / College</label>
-                        <input
-                          type="text"
-                          value={editCompany}
-                          onChange={(e) => setEditCompany(e.target.value)}
-                          placeholder="Company Name"
-                          className="w-full px-3.5 py-3.5 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-150 dark:border-white/5 text-xs text-dark dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-green focus:bg-white dark:focus:bg-dark"
-                        />
+                      <div className="space-y-1.5 relative group">
+                        <label className="text-[9px] font-mono font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider block">// ORGANISATION_OR_COLLEGE</label>
+                        <div className="relative">
+                          <input
+                            type="text"
+                            value={editCompany}
+                            onChange={(e) => setEditCompany(e.target.value)}
+                            placeholder="Company Name"
+                            className="w-full px-4 py-3.5 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-150 dark:border-white/5 text-xs text-dark dark:text-white focus:outline-none focus:bg-white dark:focus:bg-black/40 transition-all font-mono"
+                            style={{ 
+                              outline: 'none',
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = accentColor;
+                              e.target.style.boxShadow = `0 0 8px ${accentColor}30`;
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = '';
+                              e.target.style.boxShadow = '';
+                            }}
+                          />
+                          <span className="absolute top-1.5 right-2 font-mono text-[7px] text-gray-300 dark:text-white/10 group-hover:text-brand-green transition-colors">+</span>
+                        </div>
                       </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Role / Designation</label>
-                        <input
-                          type="text"
-                          value={editRole}
-                          onChange={(e) => setEditRole(e.target.value)}
-                          placeholder="Job Title / Student"
-                          className="w-full px-3.5 py-3.5 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-150 dark:border-white/5 text-xs text-dark dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-green focus:bg-white dark:focus:bg-dark"
-                        />
+                    </div>                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1.5 relative group">
+                        <label className="text-[9px] font-mono font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider block">// JOB_ROLE_OR_DESIGNATION</label>
+                        <div className="relative">
+                          <input
+                            type="text"
+                            value={editRole}
+                            onChange={(e) => setEditRole(e.target.value)}
+                            placeholder="Job Title / Student"
+                            className="w-full px-4 py-3.5 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-150 dark:border-white/5 text-xs text-dark dark:text-white focus:outline-none focus:bg-white dark:focus:bg-black/40 transition-all font-mono"
+                            style={{ 
+                              outline: 'none',
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = accentColor;
+                              e.target.style.boxShadow = `0 0 8px ${accentColor}30`;
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = '';
+                              e.target.style.boxShadow = '';
+                            }}
+                          />
+                          <span className="absolute top-1.5 right-2 font-mono text-[7px] text-gray-300 dark:text-white/10 group-hover:text-brand-green transition-colors">+</span>
+                        </div>
                       </div>
 
-                      <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Ticket Registration Email</label>
+                      <div className="space-y-1.5 relative">
+                        <label className="text-[9px] font-mono font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider block">// REGISTRATION_EMAIL</label>
                         <input
                           type="email"
                           disabled
                           value={user.email}
-                          className="w-full px-3.5 py-3.5 rounded-xl bg-gray-100 dark:bg-white/2 border border-gray-200 dark:border-white/5 text-xs text-gray-450 cursor-not-allowed"
+                          className="w-full px-4 py-3.5 rounded-xl bg-gray-100 dark:bg-white/2 border border-gray-200 dark:border-white/5 text-xs text-gray-400 cursor-not-allowed font-mono"
                         />
                       </div>
                     </div>
 
                     <div className="pt-2">
-                      <span className="text-xs font-bold text-dark dark:text-white block mb-3">Linked Accounts</span>
+                      <span className="text-[10px] font-mono font-bold text-gray-400 dark:text-gray-500 uppercase block mb-3">// LINKED_ACCOUNTS</span>
                       
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div className="relative">
+                        <div className="relative group">
                           <input
                             type="text"
                             placeholder="GitHub username"
                             value={editGithub}
                             onChange={(e) => setEditGithub(e.target.value)}
-                            className="w-full px-3.5 py-3.5 pl-9 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-150 dark:border-white/5 text-xs text-dark dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-green"
+                            className="w-full px-4 py-3.5 pl-9 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-150 dark:border-white/5 text-xs text-dark dark:text-white focus:outline-none focus:bg-white dark:focus:bg-black/40 transition-all font-mono"
+                            style={{ 
+                              outline: 'none',
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = accentColor;
+                              e.target.style.boxShadow = `0 0 8px ${accentColor}30`;
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = '';
+                              e.target.style.boxShadow = '';
+                            }}
                           />
-                          <RiGithubFill className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-405 text-sm" />
+                          <RiGithubFill className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+                          <span className="absolute top-1.5 right-2 font-mono text-[7px] text-gray-300 dark:text-white/10 group-hover:text-brand-green transition-colors">+</span>
                         </div>
 
-                        <div className="relative">
+                        <div className="relative group">
                           <input
                             type="text"
                             placeholder="LinkedIn username"
                             value={editLinkedin}
                             onChange={(e) => setEditLinkedin(e.target.value)}
-                            className="w-full px-3.5 py-3.5 pl-9 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-150 dark:border-white/5 text-xs text-dark dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-green"
+                            className="w-full px-4 py-3.5 pl-9 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-150 dark:border-white/5 text-xs text-dark dark:text-white focus:outline-none focus:bg-white dark:focus:bg-black/40 transition-all font-mono"
+                            style={{ 
+                              outline: 'none',
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = accentColor;
+                              e.target.style.boxShadow = `0 0 8px ${accentColor}30`;
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = '';
+                              e.target.style.boxShadow = '';
+                            }}
                           />
-                          <RiLinkedinBoxFill className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-405 text-sm" />
+                          <RiLinkedinBoxFill className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+                          <span className="absolute top-1.5 right-2 font-mono text-[7px] text-gray-300 dark:text-white/10 group-hover:text-brand-green transition-colors">+</span>
                         </div>
 
-                        <div className="relative">
+                        <div className="relative group">
                           <input
                             type="text"
                             placeholder="Twitter username"
                             value={editTwitter}
                             onChange={(e) => setEditTwitter(e.target.value)}
-                            className="w-full px-3.5 py-3.5 pl-9 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-150 dark:border-white/5 text-xs text-dark dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-green"
+                            className="w-full px-4 py-3.5 pl-9 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-150 dark:border-white/5 text-xs text-dark dark:text-white focus:outline-none focus:bg-white dark:focus:bg-black/40 transition-all font-mono"
+                            style={{ 
+                              outline: 'none',
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = accentColor;
+                              e.target.style.boxShadow = `0 0 8px ${accentColor}30`;
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = '';
+                              e.target.style.boxShadow = '';
+                            }}
                           />
-                          <RiTwitterXFill className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-405 text-[11px]" />
+                          <RiTwitterXFill className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[11px]" />
+                          <span className="absolute top-1.5 right-2 font-mono text-[7px] text-gray-300 dark:text-white/10 group-hover:text-brand-green transition-colors">+</span>
                         </div>
                       </div>
                     </div>
@@ -1864,7 +2146,6 @@ export default function ProfilePage({ user, onLogout, onUpdateUser }) {
 
           </div>
         </div>
-      </div>
     </section>
   );
 }
