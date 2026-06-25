@@ -8,7 +8,7 @@ const organizers = [
     company: 'CastAI',
     badge: 'Organizer',
     image: '/images/team/KunalD.png',
-    socials: { twitter: 'https://twitter.com', linkedin: 'https://linkedin.com' }
+    socials: { twitter: 'https://twitter.com', linkedin: 'https://www.linkedin.com/in/kunaldaskd/' }
   },
   {
     name: 'Sayantan Karmakar',
@@ -16,7 +16,7 @@ const organizers = [
     company: 'Motorola Solutions',
     badge: 'Organizer',
     image: '/images/team/SayantanK.jpeg',
-    socials: { twitter: 'https://twitter.com', linkedin: 'https://linkedin.com' }
+    socials: { twitter: 'https://twitter.com', linkedin: 'https://www.linkedin.com/in/sayantan-karmakar-a87091144/' }
   },
   {
     name: 'Soham Chakraborty',
@@ -24,7 +24,7 @@ const organizers = [
     company: 'Sematext Group, Inc',
     badge: 'Organizer',
     image: '/images/team/SohomC.jpeg',
-    socials: { twitter: 'https://twitter.com', linkedin: 'https://linkedin.com' }
+    socials: { twitter: 'https://twitter.com', linkedin: 'https://www.linkedin.com/in/soham-chakraborty-31136514/' }
   },
   {
     name: 'Kazi Haque',
@@ -32,7 +32,7 @@ const organizers = [
     company: 'Callchimp.ai',
     badge: 'Organizer',
     image: '/images/team/KaziH.jpeg',
-    socials: { twitter: 'https://twitter.com', linkedin: 'https://linkedin.com' }
+    socials: { twitter: 'https://twitter.com', linkedin: 'https://www.linkedin.com/in/haquekazi/' }
   },
   {
     name: 'Shivam Nandy',
@@ -40,7 +40,7 @@ const organizers = [
     company: 'Hallucinate Labs',
     badge: 'Organizer',
     image: '/images/team/ShivamN.jpeg',
-    socials: { twitter: 'https://twitter.com', linkedin: 'https://linkedin.com' }
+    socials: { twitter: 'https://twitter.com', linkedin: 'https://www.linkedin.com/in/shivam-nandy-hyphen/' }
   }
 ];
 
