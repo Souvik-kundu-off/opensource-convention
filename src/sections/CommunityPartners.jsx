@@ -4,20 +4,21 @@ import Button from '../components/ui/Button';
 const partners = [
   { name: 'CNCG Delhi', logo: '/images/community-partners/cncg-delhi.jpg' },
   { name: 'Women in Cloud Native', logo: '/images/community-partners/Women in Cloud Native.jpeg' },
-  { name: 'CertDirectory', logo: '/images/community-partners/CertDirectory Credentials.png' },
+  { name: 'CNCG Kolkata', logo: '/images/community-partners/CNCG Kolkata.png' },
   { name: 'CNCG Lucknow', logo: '/images/community-partners/CNCG Lucknow.png' },
   { name: 'React Kolkata', logo: '/images/community-partners/React Kolkata.png' },
   { name: 'Kolkata IT Hub', logo: '/images/community-partners/Kolkata IT Hub.jpeg' },
   { name: 'From Dev to Ops', logo: '/images/community-partners/from dev to ops.png' },
   { name: 'Kolkata Calling', logo: '/images/community-partners/Kolkata Calling.png' },
+  { name: 'CertDirectory', logo: '/images/community-partners/CertDirectory Credentials.png' },
   { name: 'DevConf India', logo: '/images/community-partners/devconf-in-inverse.png', darkBg: true },
   { name: 'Flutter Kolkata', logo: '/images/community-partners/flutter_kolkata.png' },
   { name: 'Global Azure Kolkata', logo: '/images/community-partners/global-azure-kolkata.jpeg' },
-  { name: 'RightSignal', logo: '/images/community-partners/RightSignal.jpeg' },
   { name: 'GDGOC TMSL', logo: '/images/community-partners/GDGOC TMSL.jpg' },
   { name: 'CodeRush X', logo: '/images/community-partners/CodeRush X.png' },
   { name: 'FIEM ACM Student Chapter', logo: '/images/community-partners/FIEM ACM Student Chapter.jpg' },
   { name: 'GDGOC AOT', logo: '/images/community-partners/GDGOC AOT.png' },
+  { name: 'RightSignal', logo: '/images/community-partners/RightSignal.jpeg' },
 ];
 
 export default function CommunityPartners() {
