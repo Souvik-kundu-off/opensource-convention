@@ -12,7 +12,7 @@ const stats = [
   { icon: RiGroupLine, target: 500, suffix: '+', label: 'Attendees' },
   { icon: RiMicLine, target: 50, suffix: '+', label: 'Speakers' },
   { icon: RiGlobalLine, target: 10, suffix: '+', label: 'Communities' },
-  { icon: RiCalendarLine, target: 1, suffix: ' Day', label: 'of learning' },
+  { icon: RiCalendarLine, target: 10, suffix: '+', label: 'Opensource Projects' },
   { icon: RiSparklingLine, target: 100, suffix: '+', label: 'Opportunities' },
 ];
 
