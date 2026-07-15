@@ -1,33 +1,49 @@
-import { X, Sparkles } from 'lucide-react';
-import { useState } from 'react';
+import { Sparkles } from 'lucide-react';
 
 export default function PromoBanner() {
-  const [visible, setVisible] = useState(true);
-
-  if (!visible) return null;
+  const openKonfHub = (e) => {
+    e.preventDefault();
+    const kBtn = document.querySelector('#konfhub-widget-trigger button, #konfhub-widget-trigger a');
+    if (kBtn) {
+      kBtn.click();
+    } else {
+      // Fallback url
+      window.open('https://opensourcecon.in/core.html', '_blank');
+    }
+  };
 
   return (
-    <div className="promo-banner relative z-[60] bg-gradient-to-r from-brand-green via-[#5EE043] to-[#3DBF2E] text-dark">
-      <div className="max-w-container mx-auto px-6 lg:px-8 py-2.5 flex items-center justify-center gap-3 text-sm font-semibold">
-        <Sparkles size={16} className="flex-shrink-0 animate-pulse" />
-        <span>
-          🎉 Community Discount is Live!{' '}
-          <a
-            href="https://opensourcecon.in/core.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline underline-offset-2 hover:no-underline font-bold"
-          >
-            Register Now With Discount →
-          </a>
-        </span>
-        <button
-          onClick={() => setVisible(false)}
-          className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-dark/10 transition-colors"
-          aria-label="Dismiss"
-        >
-          <X size={14} />
-        </button>
+    <div className="fixed top-0 left-0 right-0 h-11 z-[60] bg-[#070c06] text-white shadow-lg flex items-center justify-center border-b border-brand-green/25 backdrop-blur-md">
+      {/* Subtle background glow */}
+      <div className="absolute inset-0 bg-gradient-to-r from-brand-green/5 via-[#22c55e]/5 to-brand-green/5 pointer-events-none" />
+      
+      <div className="max-w-container mx-auto px-6 lg:px-8 py-2 flex items-center justify-center gap-3 text-xs sm:text-sm font-medium w-full relative">
+        <div className="flex items-center justify-center gap-3 select-none">
+          {/* Pulsing Badge */}
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-brand-green/10 border border-brand-green/30 text-brand-green text-[9px] sm:text-[10px] font-bold tracking-wider uppercase animate-pulse-soft">
+            <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
+            VENUE CONFIRMED
+          </span>
+
+          <span className="text-gray-300 leading-none">
+            {/* Desktop & Tablet Text */}
+            <span className="hidden sm:inline">
+              Join us at <strong className="text-white font-extrabold">Dhono Dhanyo Auditorium</strong>, Kolkata on Dec 05! <strong className="text-brand-green font-extrabold">Early Birds</strong> selling fast!{' '}
+            </span>
+            {/* Mobile Text */}
+            <span className="sm:hidden">
+              <strong className="text-white font-extrabold">Dhono Dhanyo</strong> confirmed! <strong className="text-brand-green font-extrabold">Early Birds</strong> selling fast!{' '}
+            </span>
+            
+            <a
+              href="#register"
+              onClick={openKonfHub}
+              className="inline-flex items-center gap-1 ml-1 text-brand-green hover:text-brand-green-light font-bold underline underline-offset-2 hover:no-underline transition-colors cursor-pointer"
+            >
+              Secure Your Spot <Sparkles size={12} className="inline text-brand-green" />
+            </a>
+          </span>
+        </div>
       </div>
     </div>
   );

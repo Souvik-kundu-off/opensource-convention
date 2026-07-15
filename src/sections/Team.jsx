@@ -36,8 +36,8 @@ const organizers = [
   },
   {
     name: 'Shivam Nandy',
-    role: 'Co-Founder and CEO (Technology)',
-    company: 'Hallucinate Labs',
+    role: 'Head of Product',
+    company: 'BetterBugs',
     badge: 'Organizer',
     image: '/images/team/ShivamN.jpeg',
     socials: { twitter: 'https://twitter.com', linkedin: 'https://www.linkedin.com/in/shivam-nandy-hyphen/' }
