@@ -21,6 +21,7 @@ import { AuthService } from './services/auth';
 export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [view, setView] = useState('home'); // 'home', 'login', 'profile'
+  const [showPromo, setShowPromo] = useState(true);
 
   useEffect(() => {
     // Check if user is logged in on mount
@@ -57,22 +58,25 @@ export default function App() {
   };
 
   return (
-    <div className="grid-bg min-h-screen relative bg-white dark:bg-[#0B1020]">
+    <div className={`grid-bg min-h-screen relative bg-white dark:bg-[#0B1020] transition-all duration-300 ${showPromo ? 'pt-[56px] sm:pt-11' : 'pt-0'}`}>
+      {showPromo && <PromoBanner />}
+
       {/* Decorative grid accent dots (hidden during print) */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden print:hidden">
         <div className="absolute w-1.5 h-1.5 rounded-full bg-brand-green/12 top-[128px] left-[192px]" />
         <div className="absolute w-1 h-1 rounded-full bg-brand-green/15 top-[320px] right-[256px]" />
         <div className="absolute w-1 h-1 rounded-full bg-brand-green/12 top-[576px] left-[384px]" />
-        <div className="absolute w-1.5 h-1.5 rounded-full bg-brand-green/10 top-[768px] right-[128px]" />
-        <div className="absolute w-1 h-1 rounded-full bg-brand-green/12 top-[960px] left-[64px]" />
-        <div className="absolute w-1 h-1 rounded-full bg-brand-green/10 top-[1200px] right-[320px]" />
-        <div className="absolute w-1.5 h-1.5 rounded-full bg-brand-green/8 top-[1500px] left-[200px]" />
+        <div className="absolute w-1.5 h-1.5 rounded-full bg-[#56D64B]/10 top-[768px] right-[128px]" />
+        <div className="absolute w-1 h-1 rounded-full bg-[#56D64B]/12 top-[960px] left-[64px]" />
+        <div className="absolute w-1 h-1 rounded-full bg-[#56D64B]/10 top-[1200px] right-[320px]" />
+        <div className="absolute w-1.5 h-1.5 rounded-full bg-[#56D64B]/8 top-[1500px] left-[200px]" />
       </div>
 
       <Navbar 
         currentUser={currentUser} 
         onOpenAuth={handleOpenAuth} 
         onOpenProfile={handleOpenProfile} 
+        showPromo={showPromo}
       />
 
       <main className="relative z-10 print:z-[200]">

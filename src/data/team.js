@@ -33,8 +33,8 @@ export const teamMembers = [
   },
   {
     name: 'Shivam Nandy',
-    role: 'Co-Founder and CEO (Technology)',
-    org: 'Hallucinate Labs',
+    role: 'Head of Product',
+    org: 'BetterBugs',
     tag: 'Organizer',
     photo: '/images/team/ShivamN.jpeg',
     linkedin: 'https://www.linkedin.com/in/shivam-nandy-hyphen/',

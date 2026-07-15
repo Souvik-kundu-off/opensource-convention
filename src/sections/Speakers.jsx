@@ -201,12 +201,12 @@ export default function Speakers() {
 
         {/* Collage Display Area */}
         <div className="relative mt-16 max-w-[620px] mx-auto hidden sm:block">
-          {/* Main Collage Container */}
-          <div className="relative flex items-center justify-center">
+          {/* Main Collage Container in a Premium White Container Card */}
+          <div className="bg-white p-4 rounded-[2rem] shadow-2xl border border-gray-100 relative flex items-center justify-center overflow-hidden">
             <img 
               src="/images/Collage Image Area.png" 
               alt="Speakers Collage" 
-              className="w-full h-auto block select-none brightness-90"
+              className="w-full h-auto block select-none rounded-2xl"
             />
           </div>
         </div>
