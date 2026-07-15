@@ -58,7 +58,7 @@ export default function App() {
   };
 
   return (
-    <div className={`grid-bg min-h-screen relative bg-white dark:bg-[#0B1020] transition-all duration-300 ${showPromo ? 'pt-11' : 'pt-0'}`}>
+    <div className={`grid-bg min-h-screen relative bg-white dark:bg-[#0B1020] transition-all duration-300 ${showPromo ? 'pt-[56px] sm:pt-11' : 'pt-0'}`}>
       {showPromo && <PromoBanner />}
 
       {/* Decorative grid accent dots (hidden during print) */}

@@ -71,8 +71,8 @@ export default function Venue() {
 
         {/* Card Layout */}
         <div className="max-w-4xl mx-auto relative mb-12">
-          {/* Overlapping top-left badge */}
-          <div className="absolute -top-7 -left-6 sm:-left-7 w-14 h-14 rounded-full bg-white border-[5px] border-dark dark:border-white/10 flex items-center justify-center z-20 shadow-md">
+          {/* Overlapping top-left badge - responsive positioning to prevent off-screen clipping */}
+          <div className="absolute -top-7 -left-3 lg:-left-7 w-14 h-14 rounded-full bg-white border-[5px] border-dark dark:border-white/10 flex items-center justify-center z-20 shadow-md">
             <img src="/images/logo.png" alt="OSC Logo" className="w-8 h-8 object-contain" />
           </div>
 
@@ -83,11 +83,11 @@ export default function Venue() {
             className="card relative overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 group"
           >
 
-            {/* View Switcher inside the card */}
-            <div className="absolute top-6 right-6 z-20 flex bg-white/85 dark:bg-black/40 p-1 rounded-full border border-gray-200/50 dark:border-white/10 backdrop-blur-md">
+            {/* View Switcher inside the card - responsive scale & position, no focus outlines */}
+            <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20 flex bg-white/85 dark:bg-black/40 p-1 rounded-full border border-gray-200/50 dark:border-white/10 backdrop-blur-md">
               <button 
                 onClick={() => setCardView('map')}
-                className={`px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all ${
+                className={`px-3 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-wider transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/70 ${
                   cardView === 'map' 
                     ? 'bg-black dark:bg-[#56D64B] text-white dark:text-black shadow-sm' 
                     : 'text-gray-secondary hover:text-dark dark:hover:text-white'
@@ -97,7 +97,7 @@ export default function Venue() {
               </button>
               <button 
                 onClick={() => setCardView('photo')}
-                className={`px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all ${
+                className={`px-3 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-wider transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/70 ${
                   cardView === 'photo' 
                     ? 'bg-black dark:bg-[#56D64B] text-white dark:text-black shadow-sm' 
                     : 'text-gray-secondary hover:text-dark dark:hover:text-white'
@@ -145,11 +145,11 @@ export default function Venue() {
                     className="w-full h-full object-cover transition-transform duration-700 ease-out scale-100 group-hover/image:scale-102"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/25" />
-                  <div className="absolute bottom-6 left-6 right-6 text-left">
-                    <span className="px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/20 text-brand-green text-[10px] font-bold uppercase tracking-wider">
+                  <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 text-left">
+                    <span className="hidden sm:inline-block px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/20 text-brand-green text-[10px] font-bold uppercase tracking-wider">
                       Conch-Shell Architecture
                     </span>
-                    <h4 className="text-white font-heading font-extrabold text-2xl mt-3 leading-tight">
+                    <h4 className="text-white font-heading font-extrabold text-xl sm:text-2xl mt-0 sm:mt-2 leading-tight">
                       Dhono Dhanyo Auditorium
                     </h4>
                     <p className="text-gray-300 text-xs sm:text-sm mt-1 max-w-xl">
@@ -160,30 +160,37 @@ export default function Venue() {
               </div>
             </div>
 
-            {/* Footer Divider & Details */}
-            <div className="border-t border-gray-200 dark:border-white/5 px-8 py-6 sm:py-8 bg-gray-50/30 dark:bg-black/10">
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+            {/* Footer Divider & Details - aligned symmetrically with matching icon badges */}
+            <div className="border-t border-gray-200 dark:border-white/5 px-5 sm:px-8 py-6 sm:py-8 bg-gray-50/30 dark:bg-black/10">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-8">
                 
-                {/* Left Side: Venue Address */}
-                <div className="text-left space-y-1">
-                  <h4 className="text-dark dark:text-white font-heading text-xl sm:text-2xl font-extrabold tracking-tight">
-                    Dhono Dhanyo, Kolkata
-                  </h4>
-                  <p className="text-gray-secondary dark:text-gray-400 text-sm font-semibold">
-                    Venue Location • Alipore, West Bengal
-                  </p>
-                </div>
-
-                {/* Right Side: Date details */}
+                {/* Left Side: Venue Address with MapPin Icon */}
                 <div className="flex items-center text-left">
-                  <div className="w-12 h-12 rounded-full bg-brand-green/10 text-brand-green flex items-center justify-center shrink-0 mr-4">
-                    <Calendar size={20} strokeWidth={2} />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-brand-green/10 text-brand-green flex items-center justify-center shrink-0 mr-3 sm:mr-4">
+                    <MapPin size={18} strokeWidth={2} className="sm:hidden" />
+                    <MapPin size={20} strokeWidth={2} className="hidden sm:block" />
                   </div>
                   <div>
-                    <h5 className="text-dark dark:text-white font-heading text-lg font-extrabold">
+                    <h5 className="text-dark dark:text-white font-heading text-base sm:text-lg font-extrabold leading-tight">
+                      Dhono Dhanyo Auditorium
+                    </h5>
+                    <p className="text-gray-secondary dark:text-gray-400 text-xs font-semibold mt-0.5">
+                      Alipore, Kolkata, West Bengal
+                    </p>
+                  </div>
+                </div>
+
+                {/* Right Side: Date details with Calendar Icon */}
+                <div className="flex items-center text-left">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-brand-green/10 text-brand-green flex items-center justify-center shrink-0 mr-3 sm:mr-4">
+                    <Calendar size={18} strokeWidth={2} className="sm:hidden" />
+                    <Calendar size={20} strokeWidth={2} className="hidden sm:block" />
+                  </div>
+                  <div>
+                    <h5 className="text-dark dark:text-white font-heading text-base sm:text-lg font-extrabold leading-tight">
                       05th December 2026
                     </h5>
-                    <p className="text-gray-secondary dark:text-gray-400 text-xs font-semibold uppercase tracking-wider mt-0.5">
+                    <p className="text-gray-secondary dark:text-gray-400 text-[10px] sm:text-xs font-semibold uppercase tracking-wider mt-0.5">
                       Full Day Event
                     </p>
                   </div>

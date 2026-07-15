@@ -77,8 +77,8 @@ export default function Navbar({ currentUser, onOpenAuth, onOpenProfile, showLog
 
   return (
     <nav
-      className={`fixed left-0 right-0 z-50 py-1 transition-all duration-300 ${
-        showPromo ? 'top-11' : 'top-0'
+      className={`fixed left-0 right-0 z-50 py-2 sm:py-1 transition-all duration-300 ${
+        showPromo ? 'top-[56px] sm:top-11' : 'top-0'
       } ${
         scrolled
           ? 'bg-white/80 dark:bg-dark/80 backdrop-blur-xl border-b border-gray-100 dark:border-white/5 shadow-soft'
