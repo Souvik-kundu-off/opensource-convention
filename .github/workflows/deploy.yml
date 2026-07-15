@@ -6,7 +6,6 @@ on:
       - main
       - web-restruc
       - ofc-update
-      - comm-partner
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
