@@ -83,13 +83,15 @@ export default function CommunityPartners() {
 
         {/* Digital Credentials Partner Showcase */}
         <div className="max-w-4xl mx-auto mb-16">
-          <div className="flex items-center justify-center gap-4 w-full mb-8">
-            <div className="flex-1 h-[1px] bg-brand-green/20 dark:bg-brand-green/10" />
-            <h3 className="text-xs md:text-sm font-bold font-mono tracking-widest text-brand-green uppercase select-none whitespace-nowrap flex items-center gap-2">
-              <Award size={16} />
-              DIGITAL CREDENTIALS PARTNER
-            </h3>
-            <div className="flex-1 h-[1px] bg-brand-green/20 dark:bg-brand-green/10" />
+          <div className="flex items-center justify-center gap-3 sm:gap-6 w-full mb-10">
+            <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-brand-green/30 to-brand-green/15" />
+            <div className="inline-flex items-center gap-2 sm:gap-2.5 px-4 sm:px-6 py-2 rounded-full bg-white dark:bg-[#070c06] border border-brand-green/30 shadow-[0_0_20px_rgba(86,214,75,0.12)] backdrop-blur-md transition-all duration-300">
+              <Award size={18} className="text-brand-green shrink-0" />
+              <h3 className="font-heading font-extrabold text-xs sm:text-sm tracking-[0.15em] text-dark dark:text-white uppercase select-none whitespace-nowrap">
+                Digital Credentials Partner
+              </h3>
+            </div>
+            <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent via-brand-green/30 to-brand-green/15" />
           </div>
 
           <div className="card p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 sm:gap-8 border border-brand-green/30 bg-gradient-to-r from-brand-green/[0.05] via-transparent to-brand-green/[0.05] dark:bg-black/30 hover:border-brand-green/50 transition-all duration-300 shadow-sm hover:shadow-md">
@@ -102,9 +104,6 @@ export default function CommunityPartners() {
             </div>
             
             <div className="text-center sm:text-left flex-1 space-y-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 text-brand-green text-xs font-mono font-semibold">
-                <Award size={14} /> Official Credentials Partner
-              </div>
               <h4 className="font-heading font-extrabold text-2xl text-dark dark:text-white">
                 CertDirectory
               </h4>
