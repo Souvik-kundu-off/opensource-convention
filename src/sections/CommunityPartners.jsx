@@ -1,24 +1,29 @@
-import { ArrowRight, Users } from 'lucide-react';
+import { ArrowRight, Users, Award } from 'lucide-react';
 import Button from '../components/ui/Button';
 
 const partners = [
   { name: 'CNCG Delhi', logo: '/images/community-partners/cncg-delhi.jpg' },
-  { name: 'Women in Cloud Native', logo: '/images/community-partners/Women in Cloud Native.jpeg' },
   { name: 'CNCG Kolkata', logo: '/images/community-partners/CNCG Kolkata.png' },
   { name: 'CNCG Lucknow', logo: '/images/community-partners/CNCG Lucknow.png' },
-  { name: 'React Kolkata', logo: '/images/community-partners/React Kolkata.png' },
+  { name: 'CNCG Hyderabad', logo: '/images/community-partners/CNCG Hyderabad.png' },
+  { name: 'Women in Cloud Native', logo: '/images/community-partners/Women in Cloud Native.jpeg' },
   { name: 'Kolkata IT Hub', logo: '/images/community-partners/Kolkata IT Hub.jpeg' },
   { name: 'From Dev to Ops', logo: '/images/community-partners/from dev to ops.png' },
   { name: 'Kolkata Calling', logo: '/images/community-partners/Kolkata Calling.png' },
-  { name: 'CertDirectory', logo: '/images/community-partners/CertDirectory Credentials.png' },
   { name: 'DevConf India', logo: '/images/community-partners/devconf-in-inverse.png', darkBg: true },
   { name: 'Flutter Kolkata', logo: '/images/community-partners/flutter_kolkata.png' },
   { name: 'Global Azure Kolkata', logo: '/images/community-partners/global-azure-kolkata.jpeg' },
-  { name: 'GDGOC TMSL', logo: '/images/community-partners/GDGOC TMSL.jpg' },
+  { name: 'React Kolkata', logo: '/images/community-partners/React Kolkata.png' },
+  { name: 'Litmus', logo: '/images/community-partners/litmus.png' },
+  { name: 'Kolkata WordPress', logo: '/images/community-partners/kolkata wordpress.png' },
+  { name: 'Developers Kolkata', logo: '/images/community-partners/developers kolkata.png' },
   { name: 'CodeRush X', logo: '/images/community-partners/CodeRush X.png' },
-  { name: 'FIEM ACM Student Chapter', logo: '/images/community-partners/FIEM ACM Student Chapter.jpg' },
+  { name: 'GDGOC TMSL', logo: '/images/community-partners/GDGOC TMSL.jpg' },
   { name: 'GDGOC AOT', logo: '/images/community-partners/GDGOC AOT.png' },
+  { name: 'GDGOC MSIT', logo: '/images/community-partners/GDGOC MSIT.png' },
+  { name: 'FIEM ACM Student Chapter', logo: '/images/community-partners/FIEM ACM Student Chapter.jpg' },
   { name: 'RightSignal', logo: '/images/community-partners/RightSignal.jpeg' },
+  { name: 'Bug Busters', logo: '/images/community-partners/bug busters.png' },
 ];
 
 export default function CommunityPartners() {
@@ -46,13 +51,13 @@ export default function CommunityPartners() {
           </p>
         </div>
 
-        {/* Grid Layout for Partners */}
+        {/* Layout for Partners */}
         <div className="max-w-5xl mx-auto mb-20">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
             {partners.map((partner, i) => (
               <div 
                 key={i} 
-                className="card flex flex-col items-center justify-center p-5 aspect-[4/3] hover:border-brand-green/30 hover:-translate-y-1 transition-all duration-300 group"
+                className="card flex flex-col items-center justify-center p-5 aspect-[4/3] w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-1rem)] md:w-[calc(25%-1.125rem)] hover:border-brand-green/30 hover:-translate-y-1 transition-all duration-300 group"
               >
                 {/* Logo Frame */}
                 <div className={`h-[65%] w-full flex items-center justify-center rounded-xl overflow-hidden p-3 transition-all duration-300 ${
@@ -76,8 +81,42 @@ export default function CommunityPartners() {
           </div>
         </div>
 
+        {/* Digital Credentials Partner Showcase */}
+        <div className="max-w-4xl mx-auto mb-16">
+          <div className="flex items-center justify-center gap-4 w-full mb-8">
+            <div className="flex-1 h-[1px] bg-brand-green/20 dark:bg-brand-green/10" />
+            <h3 className="text-xs md:text-sm font-bold font-mono tracking-widest text-brand-green uppercase select-none whitespace-nowrap flex items-center gap-2">
+              <Award size={16} />
+              DIGITAL CREDENTIALS PARTNER
+            </h3>
+            <div className="flex-1 h-[1px] bg-brand-green/20 dark:bg-brand-green/10" />
+          </div>
+
+          <div className="card p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 sm:gap-8 border border-brand-green/30 bg-gradient-to-r from-brand-green/[0.05] via-transparent to-brand-green/[0.05] dark:bg-black/30 hover:border-brand-green/50 transition-all duration-300 shadow-sm hover:shadow-md">
+            <div className="w-48 h-28 flex items-center justify-center p-4 bg-white dark:bg-black/60 rounded-2xl border border-gray-150 dark:border-white/10 shadow-inner flex-shrink-0">
+              <img 
+                src="/images/community-partners/CertDirectory Credentials.png" 
+                alt="CertDirectory - Digital Credentials Partner" 
+                className="max-h-full max-w-full object-contain"
+              />
+            </div>
+            
+            <div className="text-center sm:text-left flex-1 space-y-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 text-brand-green text-xs font-mono font-semibold">
+                <Award size={14} /> Official Credentials Partner
+              </div>
+              <h4 className="font-heading font-extrabold text-2xl text-dark dark:text-white">
+                CertDirectory
+              </h4>
+              <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base leading-relaxed">
+                Powering verifiable, tamper-proof digital certificates & achievement badges for all Open Source Con India 2026 attendees, speakers, and volunteers.
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Partnership CTA */}
-        <div id="partner-cta" className="mt-24 mb-8 text-center max-w-3xl mx-auto border-t border-gray-200 dark:border-white/10 pt-16">
+        <div id="partner-cta" className="mt-16 mb-8 text-center max-w-3xl mx-auto pt-6">
           <div className="w-16 h-16 mx-auto rounded-full bg-brand-green/10 flex items-center justify-center text-brand-green mb-6">
             <Users size={32} strokeWidth={1.5} />
           </div>
