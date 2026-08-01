@@ -52,7 +52,8 @@ export default function Hero() {
               Register Now
             </Button>
             <Button
-              href="#sponsors"
+              href="https://forms.fillout.com/t/2sKNq3RM68us"
+              target="_blank"
               variant="secondary"
               className="w-full sm:w-auto text-base py-4 px-8 border-gray-200 shadow-md bg-white/90 backdrop-blur-md hover:bg-white text-dark font-semibold"
             >

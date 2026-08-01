@@ -1,5 +1,6 @@
-import { ArrowRight, Users, Award } from 'lucide-react';
+import { ArrowRight, Users, Award, Ticket } from 'lucide-react';
 import Button from '../components/ui/Button';
+import { openKonfHub } from '../utils/konfhub';
 
 const partners = [
   { name: 'CNCG Delhi', logo: '/images/community-partners/cncg-delhi.jpg' },
@@ -81,35 +82,79 @@ export default function CommunityPartners() {
           </div>
         </div>
 
-        {/* Digital Credentials Partner Showcase */}
-        <div className="max-w-4xl mx-auto mb-16">
-          <div className="flex items-center justify-center gap-3 sm:gap-6 w-full mb-10">
-            <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-brand-green/30 to-brand-green/15" />
-            <div className="inline-flex items-center gap-2 sm:gap-2.5 px-4 sm:px-6 py-2 rounded-full bg-white dark:bg-[#070c06] border border-brand-green/30 shadow-[0_0_20px_rgba(86,214,75,0.12)] backdrop-blur-md transition-all duration-300">
-              <Award size={18} className="text-brand-green shrink-0" />
-              <h3 className="font-heading font-extrabold text-xs sm:text-sm tracking-[0.15em] text-dark dark:text-white uppercase select-none whitespace-nowrap">
-                Digital Credentials Partner
-              </h3>
+        {/* Special Featured Partners Showcase */}
+        <div className="max-w-4xl mx-auto mb-16 space-y-12">
+          {/* Official Ticketing Partner Showcase */}
+          <div>
+            <div className="flex items-center justify-center gap-3 sm:gap-6 w-full mb-8">
+              <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-brand-green/30 to-brand-green/15" />
+              <div className="inline-flex items-center gap-2 sm:gap-2.5 px-4 sm:px-6 py-2 rounded-full bg-white dark:bg-[#070c06] border border-brand-green/30 shadow-[0_0_20px_rgba(86,214,75,0.12)] backdrop-blur-md transition-all duration-300">
+                <Ticket size={18} className="text-brand-green shrink-0" />
+                <h3 className="font-heading font-extrabold text-xs sm:text-sm tracking-[0.15em] text-dark dark:text-white uppercase select-none whitespace-nowrap">
+                  Official Ticketing Partner
+                </h3>
+              </div>
+              <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent via-brand-green/30 to-brand-green/15" />
             </div>
-            <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent via-brand-green/30 to-brand-green/15" />
+
+            <div 
+              onClick={openKonfHub}
+              className="card p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 sm:gap-8 border border-brand-green/30 bg-gradient-to-r from-brand-green/[0.05] via-transparent to-brand-green/[0.05] dark:bg-black/30 hover:border-brand-green/50 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer group"
+            >
+              <div className="w-48 h-28 flex items-center justify-center p-4 bg-white dark:bg-black/60 rounded-2xl border border-gray-150 dark:border-white/10 shadow-inner flex-shrink-0">
+                <img 
+                  src="/images/community-partners/Konfhub.png" 
+                  alt="KonfHub - Official Ticketing Partner" 
+                  className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              
+              <div className="text-center sm:text-left flex-1 space-y-2">
+                <div className="flex flex-col sm:flex-row items-center sm:justify-between gap-2">
+                  <h4 className="font-heading font-extrabold text-2xl text-dark dark:text-white group-hover:text-brand-green transition-colors">
+                    KonfHub
+                  </h4>
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-green group-hover:translate-x-0.5 transition-transform">
+                    Register Now <ArrowRight size={14} />
+                  </span>
+                </div>
+                <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base leading-relaxed">
+                  Powering seamless event registration, ticketing, and check-ins for Open Source Con India 2026.
+                </p>
+              </div>
+            </div>
           </div>
 
-          <div className="card p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 sm:gap-8 border border-brand-green/30 bg-gradient-to-r from-brand-green/[0.05] via-transparent to-brand-green/[0.05] dark:bg-black/30 hover:border-brand-green/50 transition-all duration-300 shadow-sm hover:shadow-md">
-            <div className="w-48 h-28 flex items-center justify-center p-4 bg-white dark:bg-black/60 rounded-2xl border border-gray-150 dark:border-white/10 shadow-inner flex-shrink-0">
-              <img 
-                src="/images/community-partners/CertDirectory Credentials.png" 
-                alt="CertDirectory - Digital Credentials Partner" 
-                className="max-h-full max-w-full object-contain"
-              />
+          {/* Digital Credentials Partner Showcase */}
+          <div>
+            <div className="flex items-center justify-center gap-3 sm:gap-6 w-full mb-8">
+              <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-brand-green/30 to-brand-green/15" />
+              <div className="inline-flex items-center gap-2 sm:gap-2.5 px-4 sm:px-6 py-2 rounded-full bg-white dark:bg-[#070c06] border border-brand-green/30 shadow-[0_0_20px_rgba(86,214,75,0.12)] backdrop-blur-md transition-all duration-300">
+                <Award size={18} className="text-brand-green shrink-0" />
+                <h3 className="font-heading font-extrabold text-xs sm:text-sm tracking-[0.15em] text-dark dark:text-white uppercase select-none whitespace-nowrap">
+                  Digital Credentials Partner
+                </h3>
+              </div>
+              <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent via-brand-green/30 to-brand-green/15" />
             </div>
-            
-            <div className="text-center sm:text-left flex-1 space-y-2">
-              <h4 className="font-heading font-extrabold text-2xl text-dark dark:text-white">
-                CertDirectory
-              </h4>
-              <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base leading-relaxed">
-                Powering verifiable, tamper-proof digital certificates & achievement badges for all Open Source Con India 2026 attendees, speakers, and volunteers.
-              </p>
+
+            <div className="card p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 sm:gap-8 border border-brand-green/30 bg-gradient-to-r from-brand-green/[0.05] via-transparent to-brand-green/[0.05] dark:bg-black/30 hover:border-brand-green/50 transition-all duration-300 shadow-sm hover:shadow-md">
+              <div className="w-48 h-28 flex items-center justify-center p-4 bg-white dark:bg-black/60 rounded-2xl border border-gray-150 dark:border-white/10 shadow-inner flex-shrink-0">
+                <img 
+                  src="/images/community-partners/CertDirectory Credentials.png" 
+                  alt="CertDirectory - Digital Credentials Partner" 
+                  className="max-h-full max-w-full object-contain"
+                />
+              </div>
+              
+              <div className="text-center sm:text-left flex-1 space-y-2">
+                <h4 className="font-heading font-extrabold text-2xl text-dark dark:text-white">
+                  CertDirectory
+                </h4>
+                <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base leading-relaxed">
+                  Powering verifiable, tamper-proof digital certificates & achievement badges for all Open Source Con India 2026 attendees, speakers, and volunteers.
+                </p>
+              </div>
             </div>
           </div>
         </div>
