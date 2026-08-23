@@ -13,10 +13,11 @@ export const footerLinks = {
     { label: 'Become a Sponsor', href: 'https://forms.fillout.com/t/2sKNq3RM68us', external: true },
     { label: 'Submit a Talk', href: 'https://forms.gle/tFUzkFuCyb1heshu9', external: true },
     { label: 'Community Partners', href: 'https://forms.gle/Kr6y4FFjtyH1mxaW8', external: true },
+    { label: 'Media Partners', href: '#media' },
     { label: 'Volunteer', href: 'https://docs.google.com/forms/d/e/1FAIpQLScmPrA5nQAFVUPHbTd_wWH0WTaTAvMQPDZiSpe15sAgpFVVGw/viewform', external: true },
   ],
   Contact: [
-    { label: 'hello@opensourcecon.in', href: 'mailto:hello@opensourcecon.in' },
+    { label: 'opensourceconkol@gmail.com', href: 'mailto:opensourceconkol@gmail.com' },
   ],
 };
 

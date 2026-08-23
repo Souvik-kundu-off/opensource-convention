@@ -9,7 +9,7 @@ import {
   RiLinkedinBoxFill, 
   RiInstagramFill 
 } from 'react-icons/ri';
-import Button from './Button';
+import Button from './ui/Button';
 
 const navLinks = [
   { label: 'About', href: '#about' },
@@ -33,9 +33,41 @@ function openKonfHub(e) {
   if (kBtn) kBtn.click();
 }
 
-export default function Navbar({ currentUser, onOpenAuth, onOpenProfile }) {
+export default function Navbar({ currentUser, onOpenAuth, onOpenProfile, showLogin = false, showPromo = false }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [localShowLogin, setLocalShowLogin] = useState(showLogin);
+
+  useEffect(() => {
+    setLocalShowLogin(showLogin);
+  }, [showLogin]);
+
+  useEffect(() => {
+    // Expose a global function on window so it can be made visible when needed
+    window.showNavbarLogin = (visible = true) => {
+      setLocalShowLogin(visible);
+      localStorage.setItem('showLogin', visible ? 'true' : 'false');
+      return `Navbar login button visibility set to: ${visible}`;
+    };
+
+    // Check URL parameters or localStorage on mount
+    const params = new URLSearchParams(window.location.search);
+    const paramVal = params.get('showLogin');
+    if (paramVal === 'true') {
+      setLocalShowLogin(true);
+      localStorage.setItem('showLogin', 'true');
+    } else if (paramVal === 'false') {
+      setLocalShowLogin(false);
+      localStorage.setItem('showLogin', 'false');
+    } else {
+      const storedVal = localStorage.getItem('showLogin');
+      if (storedVal === 'true') {
+        setLocalShowLogin(true);
+      } else if (storedVal === 'false') {
+        setLocalShowLogin(false);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -45,7 +77,9 @@ export default function Navbar({ currentUser, onOpenAuth, onOpenProfile }) {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 py-1 transition-all duration-300 ${
+      className={`fixed left-0 right-0 z-50 py-2 sm:py-1 transition-all duration-300 ${
+        showPromo ? 'top-[56px] sm:top-11' : 'top-0'
+      } ${
         scrolled
           ? 'bg-white/80 dark:bg-dark/80 backdrop-blur-xl border-b border-gray-100 dark:border-white/5 shadow-soft'
           : 'bg-transparent'
@@ -92,15 +126,17 @@ export default function Navbar({ currentUser, onOpenAuth, onOpenProfile }) {
                 <span>My Pass</span>
               </button>
             ) : (
-              <Button
-                onClick={(e) => { e.preventDefault(); onOpenAuth(); }}
-                variant="text"
-                className={`${mobileOpen ? 'hidden' : 'hidden sm:inline-flex'}`}
-                icon={RiLoginBoxLine}
-                iconPosition="left"
-              >
-                Login
-              </Button>
+              localShowLogin && (
+                <Button
+                  onClick={(e) => { e.preventDefault(); onOpenAuth(); }}
+                  variant="text"
+                  className={`${mobileOpen ? 'hidden' : 'hidden sm:inline-flex'}`}
+                  icon={RiLoginBoxLine}
+                  iconPosition="left"
+                >
+                  Login
+                </Button>
+              )
             )}
             <Button
               onClick={openKonfHub}
@@ -124,44 +160,51 @@ export default function Navbar({ currentUser, onOpenAuth, onOpenProfile }) {
 
       {/* Mobile Menu */}
       <div
-        className={`xl:hidden absolute top-full left-0 right-0 h-[calc(100dvh-72px)] overflow-y-auto border-b border-gray-100 dark:border-white/5 bg-white/95 dark:bg-dark/95 backdrop-blur-xl transition-all duration-300 ease-in-out origin-top ${
+        className={`xl:hidden absolute top-full left-0 right-0 max-h-[calc(100dvh-72px)] overflow-y-auto bg-gradient-to-b from-[#0a1208] via-[#142611] to-black transition-all duration-300 ease-in-out origin-top border-t border-b border-white/10 shadow-2xl rounded-b-[2rem] ${
           mobileOpen
-            ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
-            : 'opacity-0 -translate-y-4 scale-95 pointer-events-none'
+            ? 'opacity-100 translate-y-0 pointer-events-auto'
+            : 'opacity-0 -translate-y-4 pointer-events-none'
         }`}
       >
-        <div className="px-6 py-10 flex flex-col min-h-full justify-between border-t border-gray-100 dark:border-white/5">
-          {/* Navigation Links */}
-          <div className="space-y-1.5 max-w-md mx-auto w-full">
-            {navLinks.map((link, idx) => (
+        {/* Dark grid pattern */}
+        <div 
+          className="absolute inset-0 opacity-20 pointer-events-none z-0" 
+          style={{
+            backgroundImage: 'linear-gradient(rgba(86, 214, 75, 0.2) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(86, 214, 75, 0.2) 1.5px, transparent 1.5px)',
+            backgroundSize: '72px 72px'
+          }}
+        />
+
+        {/* Ambient Glow */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-64 h-64 bg-brand-green/20 rounded-full blur-[100px] pointer-events-none z-0" />
+
+        <div className="px-6 py-6 flex flex-col relative z-10">
+          
+          {/* Navigation Links - Centered Typography */}
+          <div className="space-y-2 max-w-md mx-auto w-full pt-2">
+            {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center justify-between px-5 py-3.5 rounded-xl hover:bg-brand-green/8 dark:hover:bg-brand-green/5 transition-all duration-300 group border border-transparent hover:border-brand-green/10 dark:hover:border-brand-green/10"
+                className="block text-center group py-2"
               >
-                <div className="flex items-center gap-4 group-hover:translate-x-1.5 transition-transform duration-300">
-                  <span className="text-xs font-mono text-brand-green-dark dark:text-brand-green-dark/45">
-                    0{idx + 1}
-                  </span>
-                  <span className="text-lg font-medium text-gray-800 dark:text-gray-200 group-hover:text-brand-green-dark transition-colors">
-                    {link.label}
-                  </span>
-                </div>
-                <RiArrowRightLine className="text-brand-green-dark opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-lg" />
+                <span className="font-heading text-xl font-medium text-white group-hover:text-brand-green transition-colors duration-300">
+                  {link.label}
+                </span>
               </a>
             ))}
           </div>
 
           {/* Action Buttons & Social Footer */}
-          <div className="border-t border-gray-100 dark:border-white/5 space-y-8 max-w-md mx-auto w-full">
-            <div className="flex flex-col gap-3 items-center">
+          <div className="mt-8 space-y-6 max-w-md mx-auto w-full">
+            <div className="flex flex-col gap-4">
               {currentUser ? (
                 <button
                   onClick={() => { setMobileOpen(false); onOpenProfile(); }}
-                  className="flex items-center justify-center gap-3 w-full max-w-[300px] py-3.5 bg-gray-50 dark:bg-white/5 border border-gray-150 dark:border-white/5 rounded-xl text-dark dark:text-white font-semibold text-sm hover:bg-gray-100 dark:hover:bg-white/10 transition-all mt-6"
+                  className="flex items-center justify-center gap-3 w-full py-3.5 bg-white/5 border border-white/10 rounded-xl text-white font-semibold text-sm hover:bg-white/10 backdrop-blur-sm transition-all"
                 >
-                  <div className="w-6 h-6 rounded-full bg-brand-green/20 text-brand-green-dark dark:text-brand-green flex items-center justify-center font-heading font-extrabold text-[10px] border border-brand-green/30 overflow-hidden">
+                  <div className="w-6 h-6 rounded-full bg-brand-green/20 text-brand-green flex items-center justify-center font-heading font-extrabold text-[10px] border border-brand-green/30 overflow-hidden">
                     {currentUser.avatarUrl ? (
                       <img src={currentUser.avatarUrl} alt={currentUser.name} className="w-full h-full object-cover" />
                     ) : (
@@ -171,20 +214,22 @@ export default function Navbar({ currentUser, onOpenAuth, onOpenProfile }) {
                   <span>View My Pass</span>
                 </button>
               ) : (
-                <Button
-                  onClick={(e) => { e.preventDefault(); setMobileOpen(false); onOpenAuth(); }}
-                  variant="text"
-                  className="flex w-full max-w-[300px] justify-center pb-4 pt-6"
-                  icon={RiLoginBoxLine}
-                  iconPosition="left"
-                >
-                  Login
-                </Button>
+                localShowLogin && (
+                  <Button
+                    onClick={(e) => { e.preventDefault(); setMobileOpen(false); onOpenAuth(); }}
+                    variant="secondary"
+                    className="flex w-full justify-center py-3 bg-white/5 border border-white/10 text-white hover:bg-white/10 backdrop-blur-sm text-sm"
+                    icon={RiLoginBoxLine}
+                    iconPosition="left"
+                  >
+                    Login
+                  </Button>
+                )
               )}
               <Button
                 onClick={(e) => { setMobileOpen(false); openKonfHub(e); }}
                 variant="primary"
-                className="flex w-full max-w-[300px] justify-center py-4"
+                className="flex w-full justify-center py-3 text-dark font-extrabold shadow-[0_0_20px_rgba(86,214,75,0.2)] text-sm"
                 icon={RiArrowRightLine}
                 iconPosition="right"
               >
@@ -193,13 +238,13 @@ export default function Navbar({ currentUser, onOpenAuth, onOpenProfile }) {
             </div>
             
             {/* Social Links */}
-            <div className="flex justify-center gap-5">
+            <div className="flex justify-center gap-3 pt-2">
               {socialLinks.map(({ Icon, href, label, size }) => (
                 <a
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="w-10 h-10 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-brand-green hover:text-white transition-all duration-300 border border-gray-100 dark:border-white/5"
+                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-brand-green hover:text-dark transition-all duration-300 border border-white/10 backdrop-blur-sm shadow-xl"
                 >
                   <Icon size={size} />
                 </a>

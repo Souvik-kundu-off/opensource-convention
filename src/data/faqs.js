@@ -1,7 +1,7 @@
 export const faqs = [
   {
     q: 'When and where is Open Source Con Kolkata?',
-    a: 'Open Source Con Kolkata is scheduled for 5th December 2026. The exact venue is yet to be announced — it will be in Kolkata, West Bengal. Subscribe to our mailing list or follow us on social media to get notified the moment it\'s revealed!',
+    a: 'Open Source Con Kolkata is scheduled for 5th December 2026. The venue is finalized and will be held at the prestigious Dhono Dhanyo Auditorium in Alipore, Kolkata, West Bengal. You can view maps and transit directions in the Venue section!',
   },
   {
     q: 'Is the event paid?',
@@ -17,7 +17,7 @@ export const faqs = [
   },
   {
     q: 'Can my community partner with Open Source Con Kolkata?',
-    a: 'Yes! We love partnering with local and national tech communities. Community partners get co-promotion, booth space, and more. Reach out to us via our social channels or email at hello@opensourcecon.in.',
+    a: 'Yes! We love partnering with local and national tech communities. Community partners get co-promotion, booth space, and more. Reach out to us via our social channels or email at opensourceconkol@gmail.com.',
   },
   {
     q: 'Is this event beginner-friendly?',
