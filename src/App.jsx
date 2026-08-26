@@ -17,6 +17,7 @@ import Footer from './components/Footer';
 import RevealOnScroll from './components/ui/RevealOnScroll';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
+import TeamPage from './pages/TeamPage';
 import { AuthService } from './services/auth';
 
 export default function App() {
@@ -34,10 +35,14 @@ export default function App() {
     // Basic hash routing listener
     const handleHashChange = () => {
       const hash = window.location.hash;
+      // Scroll back to top on page transitions
+      window.scrollTo(0, 0);
       if (hash === '#login') {
         setView('login');
       } else if (hash === '#profile') {
         setView('profile');
+      } else if (hash === '#team-page') {
+        setView('team-page');
       } else {
         setView('home');
       }
@@ -108,6 +113,10 @@ export default function App() {
             onLogout={() => setCurrentUser(null)} 
             onUpdateUser={(updatedUser) => setCurrentUser(updatedUser)}
           />
+        )}
+
+        {view === 'team-page' && (
+          <TeamPage />
         )}
       </main>
 

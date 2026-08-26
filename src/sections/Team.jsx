@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 
 const organizers = [
   {
@@ -83,9 +83,9 @@ export default function Team() {
     const timer = setInterval(() => {
       setStartIndex((prev) => (prev + 3 < organizers.length ? prev + 1 : 0));
       setMobileIndex((prev) => (prev + 1) % organizers.length);
-    }, 4000);
+    }, 3500);
     return () => clearInterval(timer);
-  }, [startIndex, mobileIndex, isPaused]);
+  }, [isPaused]);
 
   const TeamCard = ({ person }) => (
     <div className="group relative flex flex-col justify-between overflow-hidden rounded-3xl bg-white border border-gray-150 transition-all duration-300 hover:-translate-y-1 shadow-md hover:shadow-xl h-full">
@@ -206,8 +206,8 @@ export default function Team() {
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          {organizers.slice(startIndex, startIndex + 3).map((person, idx) => (
-            <div key={idx} className="min-h-[340px]">
+          {organizers.slice(startIndex, startIndex + 3).map((person) => (
+            <div key={person.name} className="min-h-[340px] animate-fade-in transition-all duration-300">
               <TeamCard person={person} />
             </div>
           ))}
@@ -282,6 +282,22 @@ export default function Team() {
           >
             <ArrowRight size={18} />
           </button>
+        </div>
+        
+        {/* View Our Team Redirect Button */}
+        <div className="flex justify-center items-center mt-12 sm:mt-16 relative z-10">
+          <a
+            href="#team-page"
+            className="group mx-auto flex cursor-pointer items-center justify-center gap-0 rounded-full border-none bg-transparent px-0 py-3 font-normal transition-transform duration-300 hover:scale-105"
+          >
+            <span className="rounded-full bg-brand-green px-7 py-3.5 text-black font-bold text-sm tracking-wide duration-500 ease-in-out group-hover:bg-[#12180F] group-hover:text-brand-green group-hover:transition-colors shadow-[0_4px_25px_rgba(86,214,75,0.25)]">
+              View our team
+            </span>
+            <div className="relative flex h-fit cursor-pointer items-center overflow-hidden rounded-full bg-brand-green p-3.5 text-black duration-500 ease-in-out group-hover:bg-[#12180F] group-hover:text-brand-green group-hover:transition-colors shadow-[0_4px_25px_rgba(86,214,75,0.25)] ml-1.5">
+              <ArrowUpRight className="absolute h-5 w-5 -translate-x-1/2 transition-all duration-500 ease-in-out group-hover:translate-x-10" />
+              <ArrowUpRight className="absolute h-5 w-5 -translate-x-10 transition-all duration-500 ease-in-out group-hover:-translate-x-1/2" />
+            </div>
+          </a>
         </div>
 
       </div>
