@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, X, ArrowRight } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const EASE = [0.19, 1, 0.22, 1];
@@ -23,87 +23,149 @@ const faqs = [
   }
 ];
 
+// ─── Green Flower / Asterisk SVG Icon ─────────────────────────────────────────
+
+function GreenFlowerIcon({ className = "w-4 h-4" }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      {/* Center core */}
+      <circle cx="12" cy="12" r="2.2" />
+      {/* 4 cardinal petals */}
+      <rect x="10.6" y="2.5" width="2.8" height="6.5" rx="1.4" />
+      <rect x="10.6" y="15" width="2.8" height="6.5" rx="1.4" />
+      <rect x="2.5" y="10.6" width="6.5" height="2.8" rx="1.4" />
+      <rect x="15" y="10.6" width="6.5" height="2.8" rx="1.4" />
+      {/* 4 diagonal leaf nodes */}
+      <circle cx="6.5" cy="6.5" r="1.6" />
+      <circle cx="17.5" cy="6.5" r="1.6" />
+      <circle cx="6.5" cy="17.5" r="1.6" />
+      <circle cx="17.5" cy="17.5" r="1.6" />
+    </svg>
+  );
+}
+
+// ─── FAQ Section Component ───────────────────────────────────────────────────
+
 export default function FAQ() {
-  const [openIdx, setOpenIdx] = useState(0);
+  const [openIdx, setOpenIdx] = useState(-1);
 
   return (
-    <section id="faq" className="py-20 lg:py-28 relative bg-white border-t border-gray-100">
-      <div className="absolute inset-0 grid-bg pointer-events-none z-0" />
-      
+    <section
+      id="faq"
+      className="py-20 lg:py-28 relative overflow-hidden"
+      style={{ backgroundColor: '#F2F2EA' }}
+    >
+      {/* Subtle dot grid overlay */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none z-0"
+        style={{
+          backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.055) 1px, transparent 1px)',
+          backgroundSize: '28px 28px',
+        }}
+      />
+
       <div className="max-w-container mx-auto px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
           
-          {/* Left - Heading */}
+          {/* Left Column: Info & CTA */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="section-tag w-fit">
-              <span className="green-dot" />
-              FAQ
+            
+            {/* FAQ Pill Badge */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg border border-green-600/30 bg-white/70 shadow-2xs">
+              <GreenFlowerIcon className="w-4 h-4 text-[#2BA834]" />
+              <span className="font-heading font-extrabold text-[12px] tracking-wider text-gray-900 uppercase">
+                FAQ
+              </span>
             </div>
 
-            <h2 className="font-heading text-4xl md:text-5xl lg:text-[56px] leading-[1.4]! tracking-tight text-dark">
-              <span className="font-medium">Got questions?
+            {/* Headline */}
+            <h2 className="font-heading text-4xl md:text-5xl lg:text-[46px] font-bold leading-[1.18] tracking-tight text-gray-900">
+              Got questions?
               <br />
-              We've got</span> <span className="text-gradient uppercase font-bold">ANSWERS</span>
+              We've got the
+              <br />
+              <span
+                className="uppercase font-extrabold tracking-wide"
+                style={{
+                  background: 'linear-gradient(90deg, #22C55E 0%, #56D64B 50%, #7ED956 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                ANSWERS
+              </span>
             </h2>
 
-            <p className="text-gray-secondary text-base md:text-lg leading-relaxed max-w-sm">
+            {/* Subtitle paragraph */}
+            <p className="text-gray-500 text-[14px] md:text-[15px] leading-relaxed max-w-sm">
               Find answers to common questions about attending the Open Source Conference Kolkata.
             </p>
 
-            <a 
-              href="mailto:opensourceconkol@gmail.com" 
-              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 mt-6 rounded-full bg-black text-white font-medium text-[15px] hover:bg-gray-900 transition-colors shadow-sm w-fit"
-            >
-              Contact US <ArrowRight size={18} />
-            </a>
+            {/* Contact Us button */}
+            <div className="pt-2">
+              <a
+                href="mailto:opensourceconkol@gmail.com"
+                className="inline-flex items-center justify-center px-7 py-3 rounded-xl bg-[#1E3E34] hover:bg-[#173028] text-white font-medium text-[14px] tracking-wide shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.98]"
+              >
+                Contact Us
+              </a>
+            </div>
           </div>
 
-          {/* Right - Accordion */}
+          {/* Right Column: Accordion Items */}
           <div className="lg:col-span-7">
             <div className="space-y-4">
               {faqs.map((faq, idx) => {
                 const isOpen = openIdx === idx;
                 return (
-                  <div 
+                  <div
                     key={idx}
-                    className="rounded-2xl border border-gray-100 bg-white transition-all duration-300 overflow-hidden"
+                    className="rounded-xl border border-gray-200/80 bg-white transition-all duration-300 overflow-hidden shadow-2xs hover:border-green-400/50 hover:shadow-sm"
                   >
                     <button
                       onClick={() => setOpenIdx(isOpen ? -1 : idx)}
-                      className="w-full px-6 py-6 flex items-start gap-4 text-left focus:outline-none hover:bg-gray-50/50"
+                      className="w-full px-5 py-4 flex items-center justify-between gap-4 text-left focus:outline-none transition-colors"
+                      aria-expanded={isOpen}
                     >
-                      <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-brand-green/10 text-[#00823B]">
-                        {isOpen ? <X size={18} strokeWidth={2.5} /> : <Plus size={18} strokeWidth={2.5} />}
-                      </div>
-                      <div className="flex-1 mt-1">
-                        <span className="block font-heading font-semibold text-[18px] text-black tracking-tight">
+                      <div className="flex items-center gap-3.5 min-w-0">
+                        <GreenFlowerIcon className="w-[18px] h-[18px] text-[#2BA834] flex-shrink-0" />
+                        <span className="font-heading font-medium text-[15px] text-gray-800 tracking-tight leading-snug">
                           {faq.q}
                         </span>
-                        
-                        <AnimatePresence initial={false}>
-                          {isOpen && (
-                            <motion.div 
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.3, ease: EASE }}
-                              className="overflow-hidden"
-                            >
-                              <div className="pt-4 pb-2">
-                                <motion.p 
-                                  initial={{ y: 20, opacity: 0 }}
-                                  animate={{ y: 0, opacity: 1 }}
-                                  transition={{ duration: 0.4, ease: EASE, delay: 0.05 }}
-                                  className="text-gray-600 text-sm sm:text-base leading-relaxed pr-4"
-                                >
-                                  {faq.a}
-                                </motion.p>
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
                       </div>
+
+                      <ChevronDown
+                        size={18}
+                        className={`text-gray-400 flex-shrink-0 transition-transform duration-300 ${
+                          isOpen ? 'rotate-180 text-gray-700' : ''
+                        }`}
+                      />
                     </button>
+
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.28, ease: EASE }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-5 pb-4 pt-1 border-t border-gray-100">
+                            <p className="text-gray-600 text-[14px] leading-relaxed pl-8">
+                              {faq.a}
+                            </p>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 );
               })}

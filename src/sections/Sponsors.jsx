@@ -1,190 +1,288 @@
-import { Award, Briefcase } from 'lucide-react';
+import { Briefcase } from 'lucide-react';
 import Button from '../components/ui/Button';
 import { RiArrowRightLine } from 'react-icons/ri';
 
-const diamondSlot = { label: 'Diamond Sponsor Slot', sub: 'Become our premier partner' };
+// ─── Slot data ────────────────────────────────────────────────────────────────
+
+const diamondSlot = {
+  label: 'Diamond Sponsor Slot',
+  sub: 'Become our diamond partner',
+};
 
 const goldSlots = [
   { label: 'Gold Sponsor Slot', sub: 'Showcase your brand' },
-  { label: 'Your Logo Here', sub: 'Support local talent' },
-  { label: 'Gold Sponsor Slot', sub: 'Connect with developers' },
-  { label: 'Your Logo Here', sub: 'Join Kolkata \'26' }
+  { label: 'Gold Sponsor Slot', sub: 'Showcase your brand' },
+  { label: 'Gold Sponsor Slot', sub: 'Showcase your brand' },
+  { label: 'Gold Sponsor Slot', sub: 'Showcase your brand' },
 ];
 
 const silverSlots = [
-  { label: 'Silver Sponsor Slot', sub: 'Empower developers' },
-  { label: 'Your Logo Here', sub: 'Fuel innovation' },
-  { label: 'Silver Sponsor Slot', sub: 'Promote open source' },
-  { label: 'Your Logo Here', sub: 'Build tech community' },
-  { label: 'Silver Sponsor Slot', sub: 'Share your vision' },
-  { label: 'Your Logo Here', sub: 'Partner with us' }
+  { label: 'Silver Sponsor Slot', sub: 'Showcase your brand' },
+  { label: 'Silver Sponsor Slot', sub: 'Showcase your brand' },
+  { label: 'Silver Sponsor Slot', sub: 'Showcase your brand' },
+  { label: 'Silver Sponsor Slot', sub: 'Showcase your brand' },
+  { label: 'Silver Sponsor Slot', sub: 'Showcase your brand' },
+  { label: 'Silver Sponsor Slot', sub: 'Showcase your brand' },
 ];
 
 const bronzeSlots = [
-  { label: 'Bronze Slot', sub: 'Support us' },
-  { label: 'Your Logo Here', sub: 'Back open source' },
-  { label: 'Bronze Slot', sub: 'Empower community' },
-  { label: 'Your Logo Here', sub: 'Join movement' },
-  { label: 'Bronze Slot', sub: 'Fuel tech' },
-  { label: 'Your Logo Here', sub: 'Connect here' },
-  { label: 'Bronze Slot', sub: 'Kolkata \'26' },
-  { label: 'Your Logo Here', sub: 'Your brand' }
+  { label: 'Bronze Sponsor Slot', sub: 'Showcase your brand' },
+  { label: 'Bronze Sponsor Slot', sub: 'Showcase your brand' },
+  { label: 'Bronze Sponsor Slot', sub: 'Showcase your brand' },
+  { label: 'Bronze Sponsor Slot', sub: 'Showcase your brand' },
+  { label: 'Bronze Sponsor Slot', sub: 'Showcase your brand' },
+  { label: 'Bronze Sponsor Slot', sub: 'Showcase your brand' },
+  { label: 'Bronze Sponsor Slot', sub: 'Showcase your brand' },
+  { label: 'Bronze Sponsor Slot', sub: 'Showcase your brand' },
 ];
+
+// ─── Tier divider label ───────────────────────────────────────────────────────
+
+function TierLabel({ name }) {
+  return (
+    <div className="flex items-center gap-4 mb-6">
+      <div className="flex-1 h-px bg-gray-300" />
+      <span className="font-mono text-xs font-bold tracking-[0.2em] text-gray-500 select-none whitespace-nowrap">
+        {'( '}{name}{' )'}
+      </span>
+      <div className="flex-1 h-px bg-gray-300" />
+    </div>
+  );
+}
+
+// ─── Green corner accent (top-left bookmark flag) ─────────────────────────────
+
+function GreenCornerFlag() {
+  return (
+    <div
+      className="absolute top-0 left-0 w-[28px] h-[34px] z-10"
+      aria-hidden="true"
+      style={{
+        background: '#56D64B',
+        clipPath: 'polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%)',
+        borderRadius: '0 0 2px 2px',
+      }}
+    />
+  );
+}
+
+// ─── SVG Wave Liquid Fill ─────────────────────────────────────────────────────
+
+function WaveLiquid() {
+  return (
+    <div className="sponsor-liquid-wrap" aria-hidden="true">
+      {/* Rising liquid tank — translates up on card hover */}
+      <div className="sponsor-liquid-tank">
+        {/* Back wave (slower, more transparent) */}
+        <div className="sponsor-wave-track sponsor-wave-back-track">
+          <svg
+            viewBox="0 0 800 55"
+            preserveAspectRatio="none"
+            style={{ display: 'block', width: '200%', height: '100%' }}
+          >
+            <path
+              d="M0,28 C80,5 160,50 240,28 C320,5 400,50 480,28 C560,5 640,50 720,28 C760,17 780,35 800,28 L800,55 L0,55 Z"
+              fill="rgba(126,217,86,0.6)"
+            />
+          </svg>
+        </div>
+        {/* Front wave (faster, fully opaque) */}
+        <div className="sponsor-wave-track sponsor-wave-front-track">
+          <svg
+            viewBox="0 0 800 55"
+            preserveAspectRatio="none"
+            style={{ display: 'block', width: '200%', height: '100%' }}
+          >
+            <path
+              d="M0,34 C60,10 140,52 220,30 C300,8 380,48 460,28 C540,8 620,52 700,32 C740,22 770,42 800,34 L800,55 L0,55 Z"
+              fill="#56D64B"
+            />
+          </svg>
+        </div>
+        {/* Solid green body below the waves */}
+        <div className="sponsor-liquid-body" />
+      </div>
+    </div>
+  );
+}
+
+// ─── Slot Card ────────────────────────────────────────────────────────────────
+
+function SlotCard({ slot, size = 'md' }) {
+  const scrollToCTA = () =>
+    document.getElementById('sponsor-cta')?.scrollIntoView({ behavior: 'smooth' });
+
+  const sizeCls = {
+    xl: 'rounded-[20px] p-6',
+    md: 'rounded-[18px] p-5',
+    sm: 'rounded-[16px] p-4',
+    xs: 'rounded-[14px] p-3',
+  }[size];
+
+  const plusCls = {
+    xl: 'w-10 h-10 text-base',
+    md: 'w-9 h-9 text-sm',
+    sm: 'w-8 h-8 text-sm',
+    xs: 'w-7 h-7 text-xs',
+  }[size];
+
+  const gapCls = {
+    xl: 'gap-3',
+    md: 'gap-2.5',
+    sm: 'gap-2',
+    xs: 'gap-1.5',
+  }[size];
+
+  const labelCls = {
+    xl: 'text-[13px]',
+    md: 'text-[11px]',
+    sm: 'text-[10px]',
+    xs: 'text-[9px]',
+  }[size];
+
+  const subCls = {
+    xl: 'text-[11px]',
+    md: 'text-[9.5px]',
+    sm: 'text-[9px]',
+    xs: 'text-[8px]',
+  }[size];
+
+  return (
+    <div
+      onClick={scrollToCTA}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && scrollToCTA()}
+      className={`sponsor-card relative bg-white border border-gray-200 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 overflow-hidden w-full h-full ${sizeCls}`}
+    >
+      {/* ── SVG Wave Liquid ── */}
+      <WaveLiquid />
+
+      {/* Green bookmark flag */}
+      <GreenCornerFlag />
+
+      {/* Content – sits above the liquid via z-index */}
+      <div className={`sponsor-card-content ${gapCls}`}>
+        <div
+          className={`sponsor-plus rounded-xl border border-gray-200 flex items-center justify-center text-gray-400 transition-all duration-300 font-mono font-bold ${plusCls}`}
+        >
+          +
+        </div>
+        <div className="text-center leading-tight">
+          <span className={`sponsor-label font-heading font-extrabold text-gray-500 transition-colors duration-300 block ${labelCls}`}>
+            {slot.label}
+          </span>
+          <span className={`sponsor-sub font-medium text-gray-400 transition-colors duration-300 block mt-0.5 ${subCls}`}>
+            {slot.sub}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Main Section ─────────────────────────────────────────────────────────────
 
 export default function Sponsors() {
   return (
-    <section id="sponsors" className="py-20 lg:py-28 relative bg-white border-t border-gray-100 overflow-hidden">
-      <div className="absolute inset-0 grid-bg pointer-events-none z-0" />
-      
-      <div className="max-w-container mx-auto px-6 lg:px-8 relative z-10">
-        
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-6 mb-16">
-          <div className="section-tag inline-flex items-center gap-1.5 mx-auto">
-            <span className="green-dot" />
-            SPONSORS
+    <section
+      id="sponsors"
+      className="relative py-20 lg:py-28 overflow-hidden"
+      style={{ backgroundColor: '#F2F2EA' }}
+    >
+      {/* Subtle dot-grid overlay */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none z-0"
+        style={{
+          backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.055) 1px, transparent 1px)',
+          backgroundSize: '28px 28px',
+        }}
+      />
+
+      <div className="relative z-10 max-w-container mx-auto px-6 lg:px-8">
+
+        {/* ── Header ── */}
+        <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
+          {/* Pill tag */}
+          <div className="inline-flex items-center gap-1.5 px-4 py-[6px] rounded-full border border-green-400/50 bg-green-50 text-[11px] font-bold tracking-widest text-green-700 uppercase">
+            <span className="w-[7px] h-[7px] rounded-full bg-green-500 inline-block" />
+            Sponsors
           </div>
-          
-          <h2 className="font-heading text-4xl md:text-5xl lg:text-[56px] leading-[1.2]! tracking-tight text-dark dark:text-white">
-            <span className="font-medium">Backed by those who believe</span>
+
+          {/* Headline */}
+          <h2 className="font-heading text-4xl md:text-5xl font-extrabold leading-[1.15] tracking-tight text-gray-900">
+            Backed by those who believe
             <br />
-            <span className="font-medium">in </span>
-            <span className="text-gradient uppercase font-bold">
-              OPEN{" "}
-              <span className="underline decoration-brand-green decoration-[3px] underline-offset-[8px]">
-                SOURCE
+            in{' '}
+            <span
+              style={{
+                background: 'linear-gradient(90deg, #22C55E 0%, #7ED956 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+              className="uppercase font-extrabold"
+            >
+              Open{' '}
+              <span
+                className="underline decoration-[3px] underline-offset-[6px]"
+                style={{ textDecorationColor: '#22C55E' }}
+              >
+                Source
               </span>
             </span>
           </h2>
-          
-          <p className="text-gray-secondary text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-            Our sponsors help us keep the event accessible to everyone. Join us in supporting Bengal's largest community-driven developer conference.
+
+          {/* Subtitle */}
+          <p className="text-gray-500 text-[15px] leading-relaxed max-w-xl mx-auto">
+            Our sponsors help us keep the event accessible to everyone. Join us in supporting
+            Bengal's largest community-driven developer conference.
           </p>
         </div>
 
-        {/* Tiers Container */}
-        <div className="space-y-12 max-w-5xl mx-auto">
-          
-          {/* Diamond Tier */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-center gap-4 w-full mb-6">
-              <div className="flex-1 h-[1px] bg-brand-green/20 dark:bg-brand-green/10" />
-              <h3 className="text-xs md:text-sm font-bold font-mono tracking-widest text-brand-green uppercase select-none whitespace-nowrap">
-                {"{ DIAMOND }"}
-              </h3>
-              <div className="flex-1 h-[1px] bg-brand-green/20 dark:bg-brand-green/10" />
-            </div>
-            <div className="max-w-xl mx-auto">
-              <div 
-                onClick={() => document.getElementById('sponsor-cta')?.scrollIntoView({ behavior: 'smooth' })}
-                className="w-full aspect-[21/9] rounded-[24px] border border-gray-200 bg-white flex flex-col items-center justify-center gap-2.5 transition-all duration-300 hover:border-brand-green/30 hover:shadow-md cursor-pointer group"
-              >
-                <div className="w-10 h-10 rounded-full border border-dashed border-gray-200 flex items-center justify-center text-gray-300 group-hover:border-brand-green/30 group-hover:bg-brand-green/5 transition-colors">
-                  <span className="font-mono text-lg font-bold">+</span>
-                </div>
-                <div className="leading-tight text-center">
-                  <span className="font-heading font-extrabold text-[13px] text-gray-500 dark:text-gray-400 group-hover:text-dark dark:group-hover:text-white transition-colors block">
-                    {diamondSlot.label}
-                  </span>
-                  <span className="text-[10px] font-semibold text-gray-400 dark:text-gray-500 block mt-0.5">
-                    {diamondSlot.sub}
-                  </span>
-                </div>
-              </div>
+        {/* ── Tiers ── */}
+        <div className="max-w-4xl mx-auto space-y-14">
+
+          {/* DIAMOND */}
+          <div>
+            <TierLabel name="DIAMOND" />
+            <div className="mx-auto max-w-2xl">
+              <SlotCard slot={diamondSlot} size="xl" />
             </div>
           </div>
 
-          {/* Gold Tier */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-center gap-4 w-full mb-6">
-              <div className="flex-1 h-[1px] bg-brand-green/20 dark:bg-brand-green/10" />
-              <h3 className="text-xs md:text-sm font-bold font-mono tracking-widest text-brand-green uppercase select-none whitespace-nowrap">
-                {"{ GOLD }"}
-              </h3>
-              <div className="flex-1 h-[1px] bg-brand-green/20 dark:bg-brand-green/10" />
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {/* GOLD — 2×2 grid */}
+          <div>
+            <TierLabel name="GOLD" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {goldSlots.map((slot, i) => (
-                <div 
-                  key={i} 
-                  onClick={() => document.getElementById('sponsor-cta')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="w-full aspect-[4/3] rounded-[20px] border border-gray-200 bg-white flex flex-col items-center justify-center gap-2 transition-all duration-300 hover:border-brand-green/30 hover:shadow-sm cursor-pointer group"
-                >
-                  <div className="w-8 h-8 rounded-full border border-dashed border-gray-200 flex items-center justify-center text-gray-300 group-hover:border-brand-green/30 group-hover:bg-brand-green/5 transition-colors">
-                    <span className="font-mono text-sm font-bold">+</span>
-                  </div>
-                  <div className="leading-tight text-center">
-                    <span className="font-heading font-extrabold text-[11px] text-gray-500 dark:text-gray-400 group-hover:text-dark dark:group-hover:text-white transition-colors block">
-                      {slot.label}
-                    </span>
-                    <span className="text-[9px] font-semibold text-gray-400 dark:text-gray-500 block mt-0.5">
-                      {slot.sub}
-                    </span>
-                  </div>
+                <div key={i} className="aspect-[5/3]">
+                  <SlotCard slot={slot} size="md" />
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Silver Tier */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-center gap-4 w-full mb-6">
-              <div className="flex-1 h-[1px] bg-brand-green/20 dark:bg-brand-green/10" />
-              <h3 className="text-xs md:text-sm font-bold font-mono tracking-widest text-brand-green uppercase select-none whitespace-nowrap">
-                {"{ SILVER }"}
-              </h3>
-              <div className="flex-1 h-[1px] bg-brand-green/20 dark:bg-brand-green/10" />
-            </div>
-            <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
+          {/* SILVER — 3×2 grid */}
+          <div>
+            <TierLabel name="SILVER" />
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {silverSlots.map((slot, i) => (
-                <div 
-                  key={i} 
-                  onClick={() => document.getElementById('sponsor-cta')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="w-full aspect-square rounded-2xl border border-gray-200 bg-white flex flex-col items-center justify-center gap-1.5 transition-all duration-300 hover:border-brand-green/30 hover:shadow-sm cursor-pointer group"
-                >
-                  <div className="w-7 h-7 rounded-full border border-dashed border-gray-200 flex items-center justify-center text-gray-300 group-hover:border-brand-green/20 group-hover:bg-brand-green/5 transition-colors">
-                    <span className="font-mono text-xs font-bold">+</span>
-                  </div>
-                  <div className="leading-tight text-center px-1">
-                    <span className="font-heading font-extrabold text-[10px] text-gray-500 dark:text-gray-400 group-hover:text-dark dark:group-hover:text-white transition-colors block">
-                      {slot.label}
-                    </span>
-                    <span className="text-[8px] font-semibold text-gray-400 dark:text-gray-500 block mt-0.5">
-                      {slot.sub}
-                    </span>
-                  </div>
+                <div key={i} className="aspect-[5/4]">
+                  <SlotCard slot={slot} size="sm" />
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Bronze Tier */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-center gap-4 w-full mb-6">
-              <div className="flex-1 h-[1px] bg-brand-green/20 dark:bg-brand-green/10" />
-              <h3 className="text-xs md:text-sm font-bold font-mono tracking-widest text-brand-green uppercase select-none whitespace-nowrap">
-                {"{ BRONZE }"}
-              </h3>
-              <div className="flex-1 h-[1px] bg-brand-green/20 dark:bg-brand-green/10" />
-            </div>
-            <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
+          {/* BRONZE — 4×2 grid */}
+          <div>
+            <TierLabel name="BRONZE" />
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {bronzeSlots.map((slot, i) => (
-                <div 
-                  key={i} 
-                  onClick={() => document.getElementById('sponsor-cta')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="w-full aspect-square rounded-xl border border-gray-200 bg-white flex flex-col items-center justify-center gap-1 transition-all duration-300 hover:border-brand-green/25 hover:shadow-sm cursor-pointer group p-1"
-                >
-                  <div className="w-6 h-6 rounded-full border border-dashed border-gray-200 flex items-center justify-center text-gray-300 group-hover:border-brand-green/20 group-hover:bg-brand-green/5 transition-colors">
-                    <span className="font-mono text-[10px] font-bold">+</span>
-                  </div>
-                  <div className="leading-tight text-center px-0.5">
-                    <span className="font-heading font-extrabold text-[9px] text-gray-500 dark:text-gray-400 group-hover:text-dark dark:group-hover:text-white transition-colors block">
-                      {slot.label}
-                    </span>
-                    <span className="text-[7.5px] font-medium text-gray-400 dark:text-gray-550 block mt-0.5">
-                      {slot.sub}
-                    </span>
-                  </div>
+                <div key={i} className="aspect-[4/3]">
+                  <SlotCard slot={slot} size="xs" />
                 </div>
               ))}
             </div>
@@ -192,23 +290,24 @@ export default function Sponsors() {
 
         </div>
 
-        {/* Sponsor Us CTA */}
-        <div id="sponsor-cta" className="mt-24 pt-16 border-t border-gray-200 dark:border-white/10 flex flex-col items-center justify-center text-center max-w-3xl mx-auto">
-          <div className="w-16 h-16 rounded-full bg-brand-green/10 flex items-center justify-center text-brand-green mb-6">
-            <Briefcase size={32} strokeWidth={1.5} />
-          </div>
-          <h4 className="font-heading font-bold text-3xl md:text-4xl text-dark dark:text-white mb-4">
+        {/* ── Sponsor Us CTA ── */}
+        <div
+          id="sponsor-cta"
+          className="mt-20 pt-14 flex flex-col items-center text-center max-w-2xl mx-auto"
+        >
+          <h4 className="font-heading font-extrabold text-3xl md:text-4xl text-gray-900 mb-3">
             Interested in partnering with us?
           </h4>
-          <p className="text-gray-500 dark:text-gray-400 text-base md:text-lg leading-relaxed mb-8 max-w-2xl">
-            Join forces with Bengal's biggest open source gathering. Download our sponsorship prospectus to discover opportunities to showcase your brand to 500+ top developers.
+          <p className="text-gray-500 text-[15px] leading-relaxed mb-8 max-w-xl">
+            Join forces with Bengal's biggest open source gathering. Download our sponsorship
+            prospectus to discover opportunities to showcase your brand to 500+ top developers.
           </p>
           <Button
             href="https://drive.google.com/file/d/1RVrIZV0d6UskRM9k62cOlUU1A3J2pBg4/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
             variant="primary"
-            className="w-full sm:w-auto py-4 px-8 text-[15px] font-bold rounded-full transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg active:scale-95"
+            className="py-3.5 px-10 text-[15px] font-bold rounded-full shadow-md hover:shadow-lg active:scale-95 transition-all"
             icon={RiArrowRightLine}
             iconPosition="right"
           >

@@ -389,6 +389,120 @@ body {
   transform: translateY(-2px);
 }
 
+/* ===== Multi-Panel Organic Liquid Reveal (Sponsor Cards) ===== */
+
+/* ── Keyframes ── */
+
+/* Panels slide up from bottom, pause at top, slide back down — looping */
+@keyframes lp-slide-up {
+  0%        { transform: translateY(105%); }
+  18%       { transform: translateY(0%);   }
+  50%       { transform: translateY(0%);   }
+  68%       { transform: translateY(-105%); }
+  100%      { transform: translateY(-105%); }
+}
+
+@keyframes lp-slide-down {
+  0%        { transform: translateY(-105%); }
+  18%       { transform: translateY(0%);    }
+  50%       { transform: translateY(0%);    }
+  68%       { transform: translateY(105%);  }
+  100%      { transform: translateY(105%);  }
+}
+
+/* ── Liquid panels container ── */
+.liquid-panels-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: inherit;
+}
+
+/* ── Individual vertical column ── */
+.liquid-panel-col {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+/* ── The green fill inside each column ── */
+.liquid-panel-fill {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  will-change: transform;
+}
+
+.liquid-panel-col-up {
+  animation: lp-slide-up 5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.liquid-panel-col-down {
+  animation: lp-slide-down 5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+/* ── SVG organic edges ── */
+.liquid-panel-svg-left,
+.liquid-panel-svg-right {
+  flex-shrink: 0;
+  width: 22%;
+  height: 100%;
+  display: block;
+}
+
+.liquid-panel-svg-left {
+  margin-left: -1px;
+}
+
+.liquid-panel-svg-right {
+  margin-right: -1px;
+}
+
+/* ── Solid fill between the two organic edges ── */
+.liquid-panel-solid {
+  flex: 1;
+  background: #8BEA62;
+  min-width: 0;
+}
+
+/* ── Glow ring on card hover ── */
+.sponsor-card:hover {
+  box-shadow:
+    0 0 0 2px rgba(139, 234, 98, 0.55),
+    0 0 24px rgba(139, 234, 98, 0.35),
+    0 8px 28px rgba(139, 234, 98, 0.18) !important;
+  border-color: rgba(139, 234, 98, 0.55) !important;
+}
+
+/* ── Content z-index above liquid ── */
+.sponsor-card-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── Speed up animation on hover for interactivity ── */
+.sponsor-card:hover .liquid-panel-col-up {
+  animation-duration: 3.2s;
+}
+.sponsor-card:hover .liquid-panel-col-down {
+  animation-duration: 3.2s;
+}
+
+/* ── UI elements stay readable ── */
+.sponsor-card:hover .sponsor-plus {
+  background: rgba(255,255,255,0.22) !important;
+  border-color: rgba(255,255,255,0.70) !important;
+  color: #fff !important;
+}
+.sponsor-card:hover .sponsor-label { color: #fff !important; }
+.sponsor-card:hover .sponsor-sub   { color: rgba(255,255,255,0.82) !important; }
+
 /* ===== Green Accent Label ===== */
 .green-label {
   @apply inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full;
